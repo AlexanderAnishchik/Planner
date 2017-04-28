@@ -1,0 +1,392 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Наукова робота";
+}
+@model Domain.Models.PlanScientificWork
+<link href="~/Scripts/jqGrid/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/Scripts/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+<script src="~/Scripts/jqGrid/js/i18n/grid.locale-uk.js"></script>
+<script src="~/Scripts/jqGrid/js/jquery.jqGrid.min.js"></script>
+<br><br><br><br>
+<div class="content-wrapper">
+    <table id="JQTable"></table>
+    <div id="JQPager"></div>
+    @*<script src="~/Scripts/IndividualPlan/PlanScientificWork.js"></script>
+    <script src="~/Scripts/IndividualPlan/MSMJQgrid.js"></script>*@
+
+    <script src="~/Scripts/App/Factories/scientificWorkFormFieldFactory.js"></script>
+    <script src="~/Scripts/App/Controllers/scientificWorkController.js"></script>
+
+    <div class="scientificwork_tabform" ng-controller="scientificWorkController ">
+        <ul class="nav nav-tabs nav-justified">
+            <li class="active"><a data-toggle="tab" href="#ParticipationInExpertCouncils">НАУКОВО-ДОСЛІДНА РОБОТА</a></li>
+            <li><a data-toggle="tab" href="#ResearchAndInventiveWork">НАУКОВО-ВИНАХІДНИЦЬКА РОБОТА</a></li>
+            <li><a data-toggle="tab" href="#ScientificPublishingWork">НАУКОВО-ВИДАВНИЧА РОБОТА</a></li>
+            <li><a data-toggle="tab" href="#PreparationTeachingStaff">ПІДГОТОВКА НАУКОВО-ПЕДАГОГІЧНИХ ПРАЦІВНИКІВ</a></li>
+            <li><a data-toggle="tab" href="#StudentsResearchWork">НАУКОВО-ДОСЛІДНА РОБОТА СТУДЕНТІВ</a></li>
+            <li><a data-toggle="tab" href="#ScientificAndOrganizationalWork">НАУКОВО-ОРГАНІЗАЦІЙНА РОБОТА</a></li>
+        </ul>
+
+        <div class="tab-content">
+            <div id="ParticipationInExpertCouncils" class="tab-pane fade in active">
+                <h6>НАУКОВО-ДОСЛІДНА РОБОТА</h6>
+                <ul class="scientificwork_form">
+                    <li>
+                        <p>{{fieldFactory["ImplementationPlannedResearchManager"].name}}</p>
+                        
+                        <input type="number" ng-model="scientificWorkModel.ImplementationPlannedResearchManager" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ImplementationPlannedResearchPerformer"].name}}</p>
+                        
+                        <input type="number" ng-model="scientificWorkModel.ImplementationPlannedResearchPerformer" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["DevelopmentInnovativeResearchProjectsManager"].name}}</p>
+                        
+                        <input type="number" ng-model="scientificWorkModel.DevelopmentInnovativeResearchProjectsManager" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["DevelopmentInnovativeResearchProjectsManagerPerformer"].name}}</p>
+                        
+                        <input type="number" ng-model="scientificWorkModel.DevelopmentInnovativeResearchProjectsManagerPerformer" required />
+                    </li>
+                </ul>
+                
+            </div>
+            <div id="ResearchAndInventiveWork" class="tab-pane fade">
+                <h6>НАУКОВО-ВИНАХІДНИЦЬКА РОБОТА</h6>
+                <ul class="scientificwork_form">
+                    <li>
+                        <p>{{fieldFactory["InventiveJobTeachingInternationalPatents"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.InventiveJobTeachingInternationalPatents" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["InventiveWorkTeachersPatents"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.InventiveWorkTeachersPatents" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["InventiveWorkTeacherPatentUtilityModel"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.InventiveWorkTeacherPatentUtilityModel" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["InventiveJobTeachingCertificateWork"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.InventiveJobTeachingCertificateWork" required />
+                    </li>
+                </ul>
+            </div>
+            <div id="ScientificPublishingWork" class="tab-pane fade">
+                <h6>НАУКОВО-ВИДАВНИЧА РОБОТА</h6>
+                <ul class="scientificwork_form">
+                    <li>
+                        <p>{{fieldFactory["CollectiveMonographPublishedInDomesticPublishing"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.CollectiveMonographPublishedInDomesticPublishing" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["SoleMonographPublishedInDomesticPublishing"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.SoleMonographPublishedInDomesticPublishing" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["CollectiveMonographPublishedInForeignPublishingHouses"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.CollectiveMonographPublishedInForeignPublishingHouses" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["SoleMonographPublishedInForeignPublishingHouses"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.SoleMonographPublishedInForeignPublishingHouses" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificArticlesInJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificArticlesInJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["InventiveWorkTeachersPatents"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.InventiveWorkTeachersPatents" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["InventiveWorkTeacherPatentUtilityModel"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.InventiveWorkTeacherPatentUtilityModel" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificArticlesAcademicEditions"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificArticlesAcademicEditions" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificPapersInInternationalJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificPapersInInternationalJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificPapersProfessionalNationaJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificPapersProfessionalNationaJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificPapersNationaJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificPapersNationaJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationAbstractsForeignJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationAbstractsForeignJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationAbstractsConferencesSymposiaSeminars"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationAbstractsConferencesSymposiaSeminars" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["CollectiveMonographForeignLanguagePublishedInDomesticPublishing"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.CollectiveMonographForeignLanguagePublishedInDomesticPublishing" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["SoleForeignLanguageMonographPublishedInDomesticPublishing"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.SoleForeignLanguageMonographPublishedInDomesticPublishing" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["CollectiveMonographPublishedForeignLanguageForeignPublishers"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.CollectiveMonographPublishedForeignLanguageForeignPublishers" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["SoleForeignLanguageMonographPublishedInForeignPublishingHouses"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.SoleForeignLanguageMonographPublishedInForeignPublishingHouses" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificArticlesForeignLanguageJournalsScopusWeb"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificArticlesForeignLanguageJournalsScopusWeb" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificArticlesForeignLanguageInScientificEditions"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificArticlesForeignLanguageInScientificEditions" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificPapersForeigLanguageInternationalJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificPapersForeigLanguageInternationalJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificPapersForeignLanguageProfessionalNationaJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificPapersForeignLanguageProfessionalNationaJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationScientificPapersForeignLanguageNationaJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationScientificPapersForeignLanguageNationaJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationAbstractsForeignLanguageForeignJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationAbstractsForeignLanguageForeignJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["PublicationAbstractsForeignLanguageConferencesSymposiaSeminars"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.PublicationAbstractsForeignLanguageConferencesSymposiaSeminars" required />
+                    </li>
+                </ul>
+            </div>
+            <div id="PreparationTeachingStaff" class="tab-pane fade">
+                <h6>ПІДГОТОВКА НАУКОВО-ПЕДАГОГІЧНИХ ПРАЦІВНИКІВ</h6>
+                <ul class="scientificwork_form">
+                    <li>
+                        <p>{{fieldFactory["ProtectingThesisForDegreeDoctorOfScience"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ProtectingThesisForDegreeDoctorOfScience" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["DefendingTthesisForPhD"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.DefendingTthesisForPhD" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["TheCandidateExams"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.TheCandidateExams" required />
+                    </li>
+                </ul>
+            </div>
+            <div id="StudentsResearchWork" class="tab-pane fade">
+                <h6>НАУКОВО-ДОСЛІДНА РОБОТА СТУДЕНТІВ</h6>
+                <ul class="scientificwork_form">
+                    <li>
+                        <p>{{fieldFactory["GuidStudentsInResearchWorkOnPreparationScientificArticles"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.GuidStudentsInResearchWorkOnPreparationScientificArticles" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["GuidStudentsInResearchWorkOnPreparationAbstractsForConference"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.GuidStudentsInResearchWorkOnPreparationAbstractsForConference" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["GuidStudentsInResearchWorkOnPreparationApplicationsForSecurityDocuments"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.GuidStudentsInResearchWorkOnPreparationApplicationsForSecurityDocuments" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInInternationalCompetitions"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInInternationalCompetitions" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInUkrainianLevelPhase1"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInUkrainianLevelPhase1" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInUkrainianLevelPhase2"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInUkrainianLevelPhase2" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInRegionalLevel"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInRegionalLevel" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInUniversityLevel"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInUniversityLevel" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInInternationalOlympiad"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInInternationalOlympiad" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInUkrainianLevelOlympiadPhase1"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInUkrainianLevelOlympiadPhase1" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInUkrainianLevelOlympiadPhase2"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInUkrainianLevelOlympiadPhase2" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInOlympiadRegionalLevel"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInOlympiadRegionalLevel" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["StudentsWinnersParticipateInOlympiadUniversityLevel"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.StudentsWinnersParticipateInOlympiadUniversityLevel" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ManagementStudentScienceClub"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ManagementStudentScienceClub" required />
+                    </li>
+                </ul>
+            </div>
+            <div id="ScientificAndOrganizationalWork" class="tab-pane fade">
+                <h6>НАУКОВО-ОРГАНІЗАЦІЙНА РОБОТА</h6>
+                <ul class="scientificwork_form">
+                    <li>
+                        <p>{{fieldFactory["OrganizationAndHoldingInternationalEventsOrganizingCommitteeChairman"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationAndHoldingInternationalEventsOrganizingCommitteeChairman" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationAndHoldingInternationalEventsSecretary"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationAndHoldingInternationalEventsSecretary" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationAndHoldingUkrainianEventsOrganizingCommitteeChairman"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationAndHoldingUkrainianEventsOrganizingCommitteeChairman" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationAndHoldingUkrainianEventsSecretary"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationAndHoldingUkrainianEventsSecretary" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationInterUniversityInterfacultyInterdepartmentalActivitiesOrganizingCommitteeChairman"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationInterUniversityInterfacultyInterdepartmentalActivitiesOrganizingCommitteeChairman" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationInterUniversityInterfacultyInterdepartmentalActivitiesSecretary"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationInterUniversityInterfacultyInterdepartmentalActivitiesSecretary" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationAndHoldingInternationalEvents"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationAndHoldingInternationalEvents" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["OrganizationAndHoldingUkrainianEvents"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.OrganizationAndHoldingUkrainianEvents" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ManagementStudentScienceSchool"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ManagementStudentScienceSchool" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ResponsiblForScientificWorkDepartment"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ResponsiblForScientificWorkDepartment" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ReviewingAbstractsForDegree"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ReviewingAbstractsForDegree" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ReviewingForeignLanguagePublications"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ReviewingForeignLanguagePublications" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["ChairmanEditorialBoardSscientificJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.ChairmanEditorialBoardSscientificJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["DeputyChairmanEditorialBoardSscientificJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.DeputyChairmanEditorialBoardSscientificJournals" required />
+                    </li>
+                    <li>
+                        <p>{{fieldFactory["MemberEditorialBoardSscientificJournals"].name}}</p>
+
+                        <input type="number" ng-model="scientificWorkModel.MemberEditorialBoardSscientificJournals" required />
+                    </li>
+                </ul>
+            </div>
+            <div class="row">
+                <div class="col-xs-8">
+                </div><!-- /.col -->
+                <div class="col-xs-4">
+                    <input type="button" class="btn btn-primary btn-block btn-flat" value="Зберегти" ng-click="saveData()" />
+                </div><!-- /.col -->
+            </div>
+        </div>
+    </div>   
+</div>

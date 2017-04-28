@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "ExtramuralEntryLoad";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="container-fluid">
+
+        <div class="row">
+            <div class="form-inline">
+
+                <select class="has-feedback"
+                        data-ng-model="selectedEntryLoading">
+                    <option value="">-- Оберіть навантаження --</option>
+                    <option data-ng-repeat="el in extramuralEntries"
+                            value="{{el.Id}}">
+                        {{el.Year}}
+                    </option>
+                </select>
+
+                <select class="has-feedback"
+                        data-ng-model="selectedSemester">
+                    <option value="">-- Оберіть семестр --</option>
+                    <option data-ng-repeat="s in semesters"
+                            value="{{s.Value}}">
+                        {{s.Caption}}
+                    </option>
+                </select>
+
+                <button type="submit"
+                        class="btn btn-primary btn-flat btn-sm"
+                        data-ng-click="fillExtraEntryLoad()">
+                    Завантажити
+                </button>
+
+                <div class="form-group">
+                    <label for="additional">
+                        Відображати вхідне навантаження?
+                    </label>
+                    <input id="additional" type="checkbox" data-ng-model="extra" />
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row-fluid" ng-controller="distributionController as dCtrl" data-ng-init="dCtrl.init()">
+            <div class="col-xs-12">
+                <div class="ng-table-responsive">
+                    <table class="table table-bordered table-hover">
+                        <caption class="text-center">
+                            Навантаження за {{selectedEntryLoading}} семестр
+                        </caption>
+                        <thead class="thead-inverse">
+                        <tr>
+                            <th>№</th>
+                            <th>Кафедра</th>
+                            <th>Дисципліна</th>
+                            <th>Спеціальність</th>
+                            <th>НКП</th>
+                            <th>Курс</th>
+                            <th>К-ть студентів</th>
+                            <th>К-ть груп</th>
+                            <th>К-ть потоків</th>
+                            <th>Номер потока</th>
+                            <th>Осн.спеціальність</th>
+                            <th>Заг.обсяг годин</th>
+                            <th>Кредити</th>
+
+                            <th>Лекції</th>
+                            <th>Практичні</th>
+                            <th>Лабораторні</th>
+                            <th>Інд.робота</th>
+                            <th>Екзамен</th>
+                            <th>Залік</th>
+                            <th>КР КП ДР ДП</th>
+                            <th>Контр.робота</th>
+                            <th>Норма на КР ДР ДІ</th>
+
+                            <th>Лекції</th>
+                            <th>Практичні</th>
+                            <th>Лабораторні</th>
+                            <th>Семестрові консультації</th>
+                            <th>Екзаменаційні консультації</th>
+                            <th>Аналітичні огляди(реферати)</th>
+                            <th>Розрахункові роботи</th>
+                            <th>КР КП</th>
+                            <th>Залік</th>
+                            <th>Іспити(усні)</th>
+                            <th>Іспити(письмові)</th>
+                            <th>Перевірка контр.робіт</th>
+                            <th>Керівництво переддипломною практикою</th>
+                            <th>Участь в ДЕК</th>
+                            <th>Перевірка письмових робіт</th>
+                            <th>Захист</th>
+                            <th>Всього за семестр</th>
+                            <th>Активні</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="eE in extramuralEntries">
+                            <td ng-hide="extra">{{$index + 1}} </td>
+                            <td>{{eE.DepartmentCipher}}</td>
+                            <td>{{eE.Subject}}</td>
+                            <td>{{eE.Specialty}}</td>
+                            <td>{{eE.Extramural}}</td>
+                            <td>{{eE.Course}}</td>
+                            <td>{{eE.QuantityOfStudents}}</td>
+                            <td>{{eE.QuantityOfGroups}}</td>
+                            <td>{{eE.QuantityOfThreads}}</td>
+                            <td>{{eE.NumOfThread}}</td>
+                            <td>{{eE.MajorSpecialty}}</td>
+                            <td>{{eE.CommonTime}}</td>
+                            <td>{{eE.Credits}}</td>
+
+                            <td>{{eE.EeS.Lectures}}</td>
+                            <td>{{eE.EeS.Labs}}</td>
+                            <td>{{eE.EeS.Practices}}</td>
+                            <td>{{eE.EeS.IndependentWorks}}</td>
+                            <td>{{eE.EeS.Exam}}</td>
+                            <td>{{eE.EeS.Evaluation}}</td>
+                            <td>{{eE.EeS.Projects}}</td>
+                            <td>{{eE.EeS.Test}}</td>
+                            <td>{{eE.EeS.LimitOnProjects}}</td>
+                            
+                            <td>{{eE.Ed.Lectures}}</td>
+                            <td>{{eE.Ed.Practices}}</td>
+                            <td>{{eE.Ed.Labs}}</td>
+                            <td>{{eE.Ed.SemesterConsults}}</td>
+                            <td>{{eE.Ed.ExamConsults}}</td>
+                            <td>{{eE.Ed.WrittenWorks}}</td>
+                            <td>{{eE.Ed.AnalyticalWorks}}</td>
+                            <td>{{eE.Ed.Projects}}</td>
+                            <td>{{eE.Ed.Evaluation}}</td>
+                            <td>{{eE.Ed.OralExams}}</td>
+                            <td>{{eE.Ed.WrittenExams}}</td>
+                            <td>{{eE.Ed.CheckingTests}}</td>
+                            <td>{{eE.Ed.DiplomManagement}}</td>
+                            <td>{{eE.Ed.DekParticipation}}</td>
+                            <td>{{eE.Ed.CheckWriteWorks}}</td>
+                            <td>{{eE.Ed.Protection}}</td>
+                            <td>{{eE.Ed.Total}}</td>
+                            <td>{{eE.Ed.Active}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

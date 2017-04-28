@@ -1,0 +1,14 @@
+﻿
+@{
+    Layout = "~/Views/Shared/_LoadLayout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="form-group">
+        <p class="login-box-msg">Денне навантаження кафедри</p>
+        <script src="~/Scripts/App/Controllers/distributionController.js"></script>
+        <section class="content" ng-controller="distributionController as dCtrl" data-ng-init="dCtrl.initialize()">
+            <div></div>
+        </section>
+    </div>
+</div>

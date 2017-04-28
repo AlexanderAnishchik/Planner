@@ -379,7 +379,8 @@ img {
 }
 
 .img-circle {
-  border-radius: 50%;
+    border-radius: 50%;
+    width: 60px;
 }
 
 hr {
@@ -1428,6 +1429,7 @@ th {
   line-height: 1.428571429;
   vertical-align: top;
   border-top: 1px solid #dddddd;
+    font-size: 21px;
 }
 
 .table thead > tr > th {
@@ -1754,6 +1756,7 @@ textarea.form-control {
 
 .form-group {
   margin-bottom: 15px;
+  font-size: 20px;
 }
 
 .radio,
@@ -2091,8 +2094,9 @@ fieldset[disabled] .btn-default.active {
 
 .btn-primary {
   color: #ffffff;
-  background-color: #428bca;
-  border-color: #357ebd;
+  background-color: #073ea2;
+  border-color: #073ea2;
+    font-size: 20px; 
 }
 
 .btn-primary:hover,
@@ -2101,7 +2105,7 @@ fieldset[disabled] .btn-default.active {
 .btn-primary.active,
 .open .dropdown-toggle.btn-primary {
   color: #ffffff;
-  background-color: #3276b1;
+  background-color:#073ea2;
   border-color: #285e8e;
 }
 
@@ -4311,6 +4315,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
     display: inline-block;
     margin-bottom: 0;
     vertical-align: middle;
+      width: auto;
   }
   .navbar-form .form-control {
     display: inline-block;
@@ -6813,4 +6818,8 @@ td.visible-print {
   td.hidden-print {
     display: none !important;
   }
+}
+.fonts-size {
+     margin-bottom: 15px;
+     font-size: 20px;
 }

@@ -25,10 +25,21 @@ namespace Planner
             // Create two role
             var role1 = new IdentityRole { Name = "Admin" };
             var role2 = new IdentityRole { Name = "User" };
+            var Teacher = new IdentityRole { Name = "Teacher" };
+            var TeacherModerator = new IdentityRole { Name = "TeacherModerator" };
+            var HeadOfMethodologyDepartment = new IdentityRole { Name = "HeadOfMethodologyDepartment" };
+            var HeadOfStudies = new IdentityRole { Name = "HeadOfStudies" };
+            var HeadOfScientificSector = new IdentityRole { Name = "HeadOfScientificSector" };
+
 
             // Add role to db
             roleManager.Create(role1);
             roleManager.Create(role2);
+            roleManager.Create(Teacher);
+            roleManager.Create(TeacherModerator);
+            roleManager.Create(HeadOfMethodologyDepartment);
+            roleManager.Create(HeadOfStudies);
+            roleManager.Create(HeadOfScientificSector);
 
             // Create users
             var admin = new ApplicationUser { Email = "administrator@gmail.com", UserName = "administrator@gmail.com" };
@@ -43,28 +54,29 @@ namespace Planner
                 //userManager.AddToRole(admin.Id, role2.Name);
             }
             InitFaculties(context);
-			InitNMBDs(context);
+            InitNMBDs(context);
             base.Seed(context);
 
         }
 
 
-		private void InitNMBDs(ApplicationDbContext context)
-		{
-			context.NMBDs.Add(new NMBD() { Name = "SCOPUS" });
-			context.NMBDs.Add(new NMBD() { Name = "Web of Science" });
-			context.NMBDs.Add(new NMBD() { Name = "Index Copernicus" });
-			context.NMBDs.Add(new NMBD() { Name = "Thomson" });
+        private void InitNMBDs(ApplicationDbContext context)
+        {
+            context.NMBDs.Add(new NMBD() { Name = "SCOPUS" });
+            context.NMBDs.Add(new NMBD() { Name = "Web of Science" });
+            context.NMBDs.Add(new NMBD() { Name = "Index Copernicus" });
+            context.NMBDs.Add(new NMBD() { Name = "Thomson" });
             context.NMBDs.Add(new NMBD() { Name = "РИНЦ" });
 
             base.Seed(context);
-		}
-		private void InitFaculties(ApplicationDbContext context)
+        }
+        private void InitFaculties(ApplicationDbContext context)
         {
             List<Faculty> f = new List<Faculty>();
             f.Add(new Faculty()
             {
                 Name = "Факультет консалтингу i мiжнародного бiзнесу",
+                ShortName = "КіМБ",
                 Departments = new List<Department>()
                 {
 #region Кафедра бухгалтерського облiку
@@ -194,6 +206,7 @@ namespace Planner
             f.Add(new Faculty()
             {
                 Name = "Факультет фінансовий",
+                ShortName = "ФФ",
                 Departments = new List<Department>()
                 {
                     new Department() {Name="Кафедра фінансів" },
@@ -237,6 +250,7 @@ namespace Planner
             f.Add(new Faculty()
             {
                 Name = "Факультет менеджменту і маркетингу",
+                ShortName = "МіМ",
                 Departments = new List<Department>()
                 {
                     new Department() {Name="Кафедра менеджменту" },
@@ -268,7 +282,7 @@ namespace Planner
                          new Schedule(){UserName="Шиян Наталія Іванівна",ApiId="348302"},
                          new Schedule(){UserName="Щербак Валерія Геннадіївна",ApiId="357759"},
                          new Schedule(){UserName="Щетинін Валерій Михайлович",ApiId="354874"},
-                        
+
                      }  },
 #endregion
                 }
@@ -276,6 +290,7 @@ namespace Planner
             f.Add(new Faculty()
             {
                 Name = "Факультет економічної інформатики",
+                ShortName = "ЕІ",
                 Departments = new List<Department>()
                 {
                     #region Кафедра інформаційних систем
@@ -354,7 +369,7 @@ namespace Planner
                          new Schedule(){UserName="Чуйко Ірина Михайлівна",ApiId="353462"},
                          new Schedule(){UserName="Ястребова Ганна Сергіївна",ApiId="342907"},
                          new Schedule(){UserName="Яценко Роман Миколайович",ApiId="334832"},
-                       
+
                      }  },
                     #endregion
                     #region Кафедра технології, екології та безпеки життєдіяльності
@@ -411,7 +426,7 @@ namespace Planner
                          new Schedule(){UserName="Степанов Валерій Павлович",ApiId="297086" },
                          new Schedule(){UserName="Тесленко Олег Володимирович",ApiId="328049" },
                          new Schedule(){UserName="Удовенко Сергій Григорович",ApiId="357772" }
-                       
+
                      } },
                     #endregion
                     #region Кафедра статистики та економічного прогнозування
@@ -441,6 +456,7 @@ namespace Planner
             f.Add(new Faculty()
             {
                 Name = "Факультет економіки і права",
+                ShortName = "ЕП",
                 Departments = new List<Department>()
                 {
                     new Department() {Name="Кафедра управління персоналом та економіки праці" },
@@ -485,6 +501,7 @@ namespace Planner
             f.Add(new Faculty()
             {
                 Name = "Факультет міжнародних економічних відносин",
+                ShortName = "МЕВ",
                 Departments = new List<Department>()
                 {
                     new Department() {Name="Кафедра міжнародної економіки та менеджменту зовнішньоекономічної діяльності" },
@@ -529,6 +546,7 @@ namespace Planner
             f.Add(new Faculty()
             {
                 Name = "Факультет підготовки іноземних громадян",
+                ShortName = "ІГ",
                 Departments = new List<Department>()
                 {
                     new Department() {Name="Кафедра українознавства і мовної підготовки іноземних громадян" },

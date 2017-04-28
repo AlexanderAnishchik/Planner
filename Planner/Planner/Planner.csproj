@@ -57,7 +57,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
-    <Reference Include="SpreadsheetLight, Version=3.4.4.0, Culture=neutral, PublicKeyToken=32fbb46dc1730c57" />
+    <Reference Include="SpreadsheetLight, Version=3.4.4.0, Culture=neutral, PublicKeyToken=32fbb46dc1730c57, processorArchitecture=MSIL">
+      <HintPath>..\packages\SpreadsheetLight.3.4.4\lib\SpreadsheetLight.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -172,19 +175,24 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AuthorController.cs" />
     <Compile Include="Controllers\DepartmentController.cs" />
+    <Compile Include="Controllers\DistributionController.cs" />
     <Compile Include="Controllers\FacultyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IndividualPlanController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NdrController.cs" />
     <Compile Include="Controllers\PlanController.cs" />
     <Compile Include="Controllers\PublicationController.cs" />
     <Compile Include="Controllers\TimetableController.cs" />
+    <Compile Include="Filters\IncompleteProfileFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CreatePublicationViewModel.cs" />
+    <Compile Include="Models\DistributionViewModel.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\ndrViewModel.cs" />
     <Compile Include="Models\PublicationCreate.cs" />
     <Compile Include="Models\PublicationDraft.cs" />
     <Compile Include="Models\PublicationViewModel.cs" />
@@ -197,6 +205,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Documents\54166133.png" />
     <Content Include="Content\Documents\838500925.png" />
+    <Content Include="Content\font-awesome.css" />
     <Content Include="Content\Images\avatar.png" />
     <Content Include="Content\Images\avatar04.png" />
     <Content Include="Content\Images\avatar2.png" />
@@ -206,10 +215,12 @@
     <Content Include="Content\Images\boxed-bg.png" />
     <Content Include="Content\Images\default-50x50.gif" />
     <Content Include="Content\Images\icons.png" />
+    <Content Include="Content\Images\nemYH_iKHtw.jpg" />
     <Content Include="Content\Images\photo1.png" />
     <Content Include="Content\Images\photo2.png" />
     <Content Include="Content\Images\photo3.jpg" />
     <Content Include="Content\Images\photo4.jpg" />
+    <Content Include="Content\Images\user.png" />
     <Content Include="Content\Images\user1-128x128.jpg" />
     <Content Include="Content\Images\user2-160x160.jpg" />
     <Content Include="Content\Images\user3-128x128.jpg" />
@@ -218,7 +229,15 @@
     <Content Include="Content\Images\user6-128x128.jpg" />
     <Content Include="Content\Images\user7-128x128.jpg" />
     <Content Include="Content\Images\user8-128x128.jpg" />
+    <Content Include="Content\Images\Y-mX4M0z0hQ.jpg" />
+    <Content Include="Content\jquery.gritter.css" />
+    <Content Include="Content\Images\nav-expand.png" />
     <Content Include="Content\skin-blue-light.min.css" />
+    <Content Include="Content\style-responsive.css" />
+    <Content Include="Content\style.css" />
+    <Content Include="Content\styles.css" />
+    <Content Include="Content\Templates\IndivPlanTable.html" />
+    <Content Include="Content\zabuto_calendar.css" />
     <Content Include="Content\_all-skins.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -251,13 +270,23 @@
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\App\App.js" />
     <Content Include="Scripts\App\Controllers\departmentController.js" />
+    <Content Include="Scripts\App\Controllers\distributionController.js" />
+    <Content Include="Scripts\App\Controllers\individualPlanController.js" />
+    <Content Include="Scripts\App\Controllers\getUsersController.js" />
+    <Content Include="Scripts\App\Controllers\scientificWorkController.js" />
+    <Content Include="Scripts\App\Controllers\tabController.js" />
     <Content Include="Scripts\App\Controllers\timetableController.js" />
     <Content Include="Scripts\App\Controllers\registerController.js" />
     <Content Include="Scripts\App\Controllers\sidebarController.js" />
     <Content Include="Scripts\App\Directives\ngEnter.js" />
+    <Content Include="Scripts\App\Factories\rolesFactory.js" />
+    <Content Include="Scripts\App\Factories\scientificWorkFormFieldFactory.js" />
+    <Content Include="Scripts\App\Factories\validationFactory.js" />
     <Content Include="Scripts\App\Services\keeperService.js" />
+    <Content Include="Scripts\App\Services\indivPlanService.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\common-scripts.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -273,35 +302,16 @@
     <Content Include="App_Data\Dodatki.xlsx" />
     <Content Include="App_Data\DepartmentReport.xlsx" />
     <Content Include="App_Data\Form11.xlsx" />
+    <Content Include="App_Data\Blank_2017_Ind_plan.xlsx" />
     <None Include="Properties\PublishProfiles\neyhome.pubxml" />
+    <None Include="Properties\PublishProfiles\vlad.pubxml" />
     <None Include="Properties\PublishProfiles\фів.pubxml" />
+    <Content Include="Scripts\gritter-conf.js" />
+    <Content Include="Scripts\IndividualPlan\PlanManagment.js" />
+    <Content Include="Scripts\IndividualPlan\PlanScientificWork.js" />
+    <Content Include="Scripts\IndividualPlan\PlnaMethodicalWork.js" />
+    <Content Include="Scripts\IndividualPlan\MSMJQgrid.js" />
     <Content Include="Scripts\IndividualPlan\TrainingJob.js" />
-    <Content Include="Scripts\jqGrid\css\images\animated-overlay.gif" />
-    <Content Include="Scripts\jqGrid\css\images\code.png" />
-    <Content Include="Scripts\jqGrid\css\images\php.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_flat_55_999999_40x100.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_flat_75_aaaaaa_40x100.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_glass_45_0078ae_1x400.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_glass_55_f8da4e_1x400.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_glass_75_79c9ec_1x400.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_gloss-wave_45_e14f1c_500x100.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_gloss-wave_50_6eac2c_500x100.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_gloss-wave_75_2191c0_500x100.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-bg_inset-hard_100_fcfdfd_1x100.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_0078ae_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_056b93_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_222222_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_228ef1_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_444444_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_d8e7f3_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_e0fdff_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_ef8c08_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_f5e175_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_f7a50d_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_fcd113_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_ffd27a_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="Scripts\jqGrid\css\jquery-ui.min.css" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\dashboard.js" />
     <Content Include="Scripts\demo.js" />
@@ -1049,18 +1059,17 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
-    <Content Include="Scripts\jqGrid\css\ellipsis-xbl.xml" />
     <Content Include="Scripts\jqGrid\css\ui.jqgrid-bootstrap-ui.css" />
     <Content Include="Scripts\jqGrid\css\ui.jqgrid-bootstrap.css" />
     <Content Include="Scripts\jqGrid\css\ui.jqgrid.css" />
     <Content Include="Scripts\jqGrid\js\Changes.txt" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-ar.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-bg.js" />
-    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-bg1251.js" />
-    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-cat.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-ca.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-cn.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-cs.js" />
-    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-da.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-de.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-dk.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-el.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-en.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-es.js" />
@@ -1069,10 +1078,15 @@
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-fr.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-gl.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-he.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-hr.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-hu.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-id.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-is.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-it.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-ja.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-kr.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-lt.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-me.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-nl.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-no.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-pl.js" />
@@ -1081,10 +1095,15 @@
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-ro.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-ru.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-sk.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-sq.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-sr-latin.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-sr.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-sv.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-th.js" />
     <Content Include="Scripts\jqGrid\js\i18n\grid.locale-tr.js" />
-    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-uk.js" />
+    <Content Include="Scripts\jqGrid\js\i18n\grid.locale-vi.js" />
     <Content Include="Scripts\jqGrid\js\install.txt" />
     <Content Include="Scripts\jqGrid\js\jquery-1.11.0.min.js" />
     <Content Include="Scripts\jqGrid\js\jquery.jqGrid.min.js" />
@@ -1115,11 +1134,8 @@
     <Content Include="Scripts\jqGrid\src\grid.treegrid.js" />
     <Content Include="Scripts\jqGrid\src\grid.utils.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-bg.js" />
-    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-bg1251.js" />
-    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-cat.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-cn.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-cs.js" />
-    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-da.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-de.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-dk.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-el.js" />
@@ -1145,7 +1161,9 @@
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-sr.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-sv.js" />
     <Content Include="Scripts\jqGrid\src\i18n\grid.locale-tr.js" />
-    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-ua.js" />
+    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-tw.js" />
+    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-uk.js" />
+    <Content Include="Scripts\jqGrid\src\i18n\grid.locale-vi.js" />
     <Content Include="Scripts\jqGrid\src\jqDnR.js" />
     <Content Include="Scripts\jqGrid\src\jqModal.js" />
     <Content Include="Scripts\jqGrid\src\jquery.fmatter.js" />
@@ -1180,6 +1198,11 @@
     <Content Include="Scripts\jquery-ui-1.12.1\jquery-ui.theme.css" />
     <Content Include="Scripts\jquery-ui-1.12.1\jquery-ui.theme.min.css" />
     <Content Include="Scripts\jquery-ui-1.12.1\LICENSE.txt" />
+    <Content Include="Scripts\jquery.dcjqaccordion.2.7.js" />
+    <Content Include="Scripts\jquery.gritter.js" />
+    <Content Include="Scripts\jquery.nicescroll.js" />
+    <Content Include="Scripts\jquery.scrollTo.min.js" />
+    <Content Include="Scripts\jquery.sparkline.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -1911,6 +1934,7 @@
     <Content Include="Scripts\plugins\timepicker\bootstrap-timepicker.min.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\zabuto_calendar.js" />
     <Content Include="Scripts\_references.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -1921,7 +1945,9 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="Views\Web.config" />
+    <Content Include="Views\Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -1984,11 +2010,25 @@
     <Content Include="Views\Plan\Index.cshtml" />
     <Content Include="Views\Account\GetUsers.cshtml" />
     <Content Include="Views\Account\Edit.cshtml" />
-    <Content Include="Views\IndividualPlan\Index.cshtml" />
     <Content Include="Views\IndividualPlan\TrainingJob.cshtml" />
+    <Content Include="Views\Ndr\Add.cshtml" />
+    <Content Include="Views\Ndr\Index.cshtml" />
+    <Content Include="Views\Ndr\Result.cshtml" />
+    <Content Include="Views\IndividualPlan\PlanScientificWork.cshtml" />
+    <Content Include="Views\IndividualPlan\PlanMethodicalWork.cshtml" />
+    <Content Include="Views\IndividualPlan\PlanManagment.cshtml" />
+    <Content Include="Views\Home\Profile.cshtml" />
+    <Content Include="Views\Account\CompleteProfile.cshtml" />
+    <Content Include="Views\Distribution\DayEntryLoad.cshtml" />
+    <Content Include="Views\Distribution\ExtramuralEntryLoad.cshtml" />
+    <Content Include="Views\Distribution\Index.cshtml" />
+    <Content Include="Views\Distribution\TeachLoad.cshtml" />
+    <Content Include="Views\Distribution\UploadEntry.cshtml" />
+    <Content Include="UploadedFiles\Blank_2017_Ind_plan.xlsx" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Files\" />
+    <Folder Include="Scripts\jqGrid\css\images\" />
     <Folder Include="Views\Author\" />
     <Folder Include="Views\Faculty\" />
   </ItemGroup>
@@ -2008,6 +2048,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj">
       <Project>{ac02d098-6598-4259-8811-17ddf45cdf54}</Project>
       <Name>Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Load\Load.csproj">
+      <Project>{50499e8f-d565-49b5-acaa-3f72ca549a65}</Project>
+      <Name>Load</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
