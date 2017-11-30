@@ -1,0 +1,16 @@
+﻿<div class="content-wrapper">
+    <div class="form-group">
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" ng-cloak data-ng-init="registerCtrl.init()">
+            @ViewBag.userEdit
+            <p class="login-box-msg">Результаты НДР студентів</p>
+
+            <!-- Main content -->
+            <section class="content">
+                <!-- Main row -->
+                @{ Html.RenderAction("Add"); }
+                <br /><br /><br /><br />
+                @{ Html.RenderAction("Result"); }
+            </section><!-- /.content -->
+        </div><!-- /.content-wrapper -->
+    </div>
+</div>

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -13,7 +11,7 @@ using Domain.Models;
 using Planner.Models;
 using System.ComponentModel.DataAnnotations;
 using System.Collections.Generic;
-using Microsoft.AspNet.Identity.EntityFramework;
+using Planner.Filters;
 
 namespace Planner.Controllers
 {
@@ -59,7 +57,7 @@ namespace Planner.Controllers
 		[Authorize(Roles = "User")]
 		public JsonResult GetUserInfo()
 		{
-			using (ApplicationDbContext db = new ApplicationDbContext())
+			using (var db = new ApplicationDbContext())
 			{
 				var user = db.Users.FirstOrDefault(x => x.UserName == HttpContext.User.Identity.Name);
 				return new JsonResult()
@@ -96,7 +94,7 @@ namespace Planner.Controllers
         public ActionResult Login(string returnUrl)
         {
 			if (HttpContext.User.Identity.IsAuthenticated)
-				return RedirectToAction("Dashboard", "Home");
+				return RedirectToAction("Profile", "Home");
             ViewBag.ReturnUrl = returnUrl;
 
             ////HACK
@@ -132,19 +130,28 @@ namespace Planner.Controllers
             {
                 return View(model);
             }
-
-            // This doesn't count login failures towards account lockout
-            // To enable password failures to trigger account lockout, change to shouldLockout: true
-            var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+            var user = UserManager.FindByEmail(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Користувач не зареєстрований.");
+                return View(model);
+            }
+			if (!user.IsActive)
+			{
+				ModelState.AddModelError("", "Користувач був деактивований.");
+				return View(model);
+			}
+			// This doesn't count login failures towards account lockout
+			// To enable password failures to trigger account lockout, change to shouldLockout: true
+			var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToAction("Dashboard","Home");
+                    return RedirectToAction("Profile", "Home");
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
-                case SignInStatus.Failure:
+                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, model.RememberMe });
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
@@ -180,68 +187,66 @@ namespace Planner.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, model.RememberMe, model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(model.ReturnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
-                case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid code.");
+                    ModelState.AddModelError("", "Невірний код.");
                     return View(model);
             }
         }
 
 		[Authorize(Roles = "Admin")]
-		public ActionResult Register(String username)
+		public ActionResult Register(string username)
 		{
-			if (username != null)
+		    if (username != null)
 			{
-				ViewBag.userAdd = "User " + username + " has been added";
+				ViewBag.userAdd = "Користувач " + username + ", був створенний!";
 			}
-			using (ApplicationDbContext db = new ApplicationDbContext())
-			{
-
-				return View();
-			}
-				
+		    using (new ApplicationDbContext())
+		    {
+		        return View();
+		    }
 		}
 
-		//
+        //
 		// POST: /Account/Register
 		[HttpPost]
         [ValidateAntiForgeryToken]
 		[Authorize(Roles = "Admin")]
 		public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            Int32 qw = (Int32)model.DegreeEnum;
-            if (ModelState.IsValid)
+		    if (ModelState.IsValid)
             {
                 var user = new ApplicationUser
-				{
-					UserName = model.Email,
-					Email = model.Email,
-					FirstName = model.FirstName,
-					LastName = model.LastName,
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
                     ThirdName = model.ThirdName,
-                    Degree = new Degree() { Value = model.DegreeEnum },
-                    Position = new Position() { Value = model.PositionEnum },
-                    AcademicTitle = new AcademicTitle() { Value = model.AcademicTitleEnum },
-					ScholarLink = model.ScholarLink,
-					OrcidLink = model.OrcidLink
+                    Degree = new Degree() {Value = model.DegreeEnum},
+                    Position = new Position() {Value = model.PositionEnum},
+                    AcademicTitle = new AcademicTitle() {Value = model.AcademicTitleEnum},
+                    ScholarLink = model.ScholarLink,
+                    OrcidLink = model.OrcidLink,
+                    IsActive=true,
+                    DepartmentUsers = new List<DepartmentUser>
+                    {
+                        new DepartmentUser()
+                        {
+                            DepartmentId = model.DepartmentId
+                        }
+                    }
                 };
-				user.DepartmentUsers = new List<DepartmentUser>();
-				user.DepartmentUsers.Add(new DepartmentUser()
-				{
-					DepartmentId = model.DepartmentId
-					
-				});
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-					UserManager.AddToRole(user.Id, "User");
+					UserManager.AddToRole(user.Id, model.Role);
                     return RedirectToAction("Register", new {username=user.Email });
                 }
                 AddErrors(result);
@@ -251,19 +256,70 @@ namespace Planner.Controllers
             return View("Register", model);
         }
 
+        [Authorize]
+        public JsonResult GetRoles()
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var roles = db.Roles.Select(x => new { x.Name }).ToList();
+                return new JsonResult()
+                {
+                    JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                    Data = roles
+                };
+            }
+        }
+
         [Authorize(Roles = "Admin")]
         public ActionResult GetUsers()
         {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public JsonResult GetUsersData()
+        {
             GetUsersModel model = new GetUsersModel
             {
-                UserList = UserManager.Users.ToList()
+                UserList = UserManager.Users.Select(u => new EditingUser
+                {
+                    Id = u.Id,
+                    Name = u.LastName + " " + u.FirstName + " " + u.ThirdName,
+                    Email = u.Email,
+                    PositionId = u.PositionId,
+                    IsActive = u.IsActive
+                })
+                .OrderBy(x => x.Name)
+                .ToList()
             };
-            return View(model);
+            return new JsonResult()
+            {
+                JsonRequestBehavior = JsonRequestBehavior.AllowGet,
+                Data = model
+            };
+        }
+
+        [Authorize(Roles = "Admin")]
+        public JsonResult ToggleActive(string userName)
+        {
+            var user = UserManager.FindByEmail(userName);
+            if (user == null)
+                return Json(new { success = false, message = "Користувач не iснує." });
+
+            user.IsActive = !user.IsActive;
+
+            IdentityResult result = UserManager.Update(user);
+            return result.Succeeded ? Json(new { success = true }) : Json(new { success = false, message = "Помилка пiд час запиту." });
         }
 
         public ActionResult Edit(string userName)
         {
+			if(userName == null)
+			{
+				return Redirect("~/");
+			}
             ApplicationUser user = UserManager.FindByEmail(userName);
+			
             if (user != null)
             {
                 EditModel model = new EditModel
@@ -272,21 +328,96 @@ namespace Planner.Controllers
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     ThirdName = user.ThirdName,
-                    DegreeEnum = user.Degree.Value,
-                    PositionEnum = user.Position.Value,
-                    AcademicTitleEnum = user.AcademicTitle.Value,
                     ScholarLink = user.ScholarLink,
                     OrcidLink = user.OrcidLink,
+					Role = UserManager.GetRoles(user.Id).FirstOrDefault()
+
                 };
+
+                if (user.Degree != null)
+                    model.DegreeEnum = user.Degree.Value;
+                if (user.Position != null)
+                    model.PositionEnum = user.Position.Value;
+                if (user.AcademicTitle != null)
+                    model.AcademicTitleEnum = user.AcademicTitle.Value;
+
+				//logic for faculty and departments
+				if (user.DepartmentUsers != null && user.DepartmentUsers.Count != 0)
+				{
+					model.FacultyId = user.DepartmentUsers.FirstOrDefault().Department.FacultyId;
+					model.DepartmentId = user.DepartmentUsers.FirstOrDefault().DepartmentId;
+				}
 
                 return View(model);
             }
-            return RedirectToAction("Dashboard", "Home");
-
+            return RedirectToAction("Profile", "Home");
         }
 
-        // POST: /Account/Edit
-        [HttpPost]
+        public FileContentResult GetProfilePic(string userName)
+        {
+            ApplicationUser user = UserManager.FindByEmail(userName);
+            if (user != null)
+            {
+                if (user.ProfilePicture != null)
+                    return new FileContentResult(user.ProfilePicture, "image/jpeg");
+                else return null;
+            }
+            else return null;
+        }
+		public ActionResult CompleteProfile()
+		{
+			var user = UserManager.FindByName(User.Identity.GetUserName());
+			if(user == null)
+			{
+				ModelState.AddModelError("", "Користувач не зареєстрований.");
+				return View("Login");
+			}
+			EditModel model = new EditModel
+			{
+				Email = user.Email,
+				FirstName = user.FirstName,
+				LastName = user.LastName,
+				ThirdName = user.ThirdName,
+				ScholarLink = user.ScholarLink,
+				OrcidLink = user.OrcidLink,
+				Role = UserManager.GetRoles(user.Id).FirstOrDefault()
+
+			};
+
+			if (user.Degree != null)
+				model.DegreeEnum = user.Degree.Value;
+			if (user.Position != null)
+				model.PositionEnum = user.Position.Value;
+			if (user.AcademicTitle != null)
+				model.AcademicTitleEnum = user.AcademicTitle.Value;
+
+			//logic for faculty and departments
+			if (user.DepartmentUsers != null && user.DepartmentUsers.Count != 0)
+			{
+				model.FacultyId = user.DepartmentUsers.FirstOrDefault().Department.FacultyId;
+				model.DepartmentId = user.DepartmentUsers.FirstOrDefault().DepartmentId;
+			}
+
+			return View(model);
+		}
+		[HttpPost]
+		public ActionResult CompleteProfile(EditModel user)
+		{
+			// double check for EditModel
+			if (user.DepartmentId == null ||
+					user.FacultyId == null || 
+					user.AcademicTitleEnum == 0 || 
+					user.DegreeEnum == 0 || 
+					user.PositionEnum == 0)
+			{
+				return RedirectToAction("CompleteProfile");
+			}
+			Session.Remove(IncompleteProfileFilter.IncompleteUserKeyName);
+			return Edit(user);
+		}
+
+		// POST: /Account/Edit
+		[HttpPost]
         public ActionResult Edit(EditModel model)
         {
             ApplicationUser user = UserManager.FindByEmail(model.Email);
@@ -302,11 +433,51 @@ namespace Planner.Controllers
                 user.AcademicTitle = new AcademicTitle() { Value = model.AcademicTitleEnum };
                 user.ScholarLink = model.ScholarLink;
                 user.OrcidLink = model.OrcidLink;
+				if (model.FacultyId != null && model.DepartmentId != null)
+				{
+					using (var db = new ApplicationDbContext())
+					{
+						user.DepartmentUsers.Add(new DepartmentUser() { DepartmentId = model.DepartmentId, UserId = user.Id });
+					}
+				}
+
+                if (model.ProfilePicture != null)
+                {
+                    byte[] image = new byte[model.ProfilePicture.ContentLength];
+                    model.ProfilePicture.InputStream.Read(image, 0, Convert.ToInt32(model.ProfilePicture.ContentLength));
+                    user.ProfilePicture = image;
+                }
 
                 IdentityResult result = UserManager.Update(user);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Dashboard", "Home");
+					if (User.IsInRole("Admin"))
+					{
+						IdentityResult result2 = UserManager.RemoveFromRole(user.Id, UserManager.GetRoles(user.Id).FirstOrDefault());
+						if (result2.Succeeded)
+						{
+							IdentityResult result3 = UserManager.AddToRole(user.Id, model.Role);
+
+							if (result3.Succeeded)
+							{
+								AuthenticationManager.SignOut();
+								return RedirectToAction("Login", "Account");
+							}
+							else
+							{
+								AddErrors(result3);
+							}
+						}
+						else
+						{
+							AddErrors(result2);
+						}
+					}
+					else
+					{
+						return RedirectToAction("Profile", "Home");
+					}
+									
                 }
                 else
                 {
@@ -357,16 +528,7 @@ namespace Planner.Controllers
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
                 }
-
-                // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -463,7 +625,7 @@ namespace Planner.Controllers
             {
                 return View("Error");
             }
-            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, ReturnUrl = model.ReturnUrl, RememberMe = model.RememberMe });
+            return RedirectToAction("VerifyCode", new { Provider = model.SelectedProvider, model.ReturnUrl, model.RememberMe });
         }
 
         //
@@ -487,7 +649,6 @@ namespace Planner.Controllers
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
                 default:
                     // If the user does not have an account, then prompt the user to create an account
                     ViewBag.ReturnUrl = returnUrl;
@@ -539,7 +700,7 @@ namespace Planner.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Dashboard", "Home");
+            return RedirectToAction("Profile", "Home");
         }
 
         //
@@ -574,13 +735,7 @@ namespace Planner.Controllers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+        private IAuthenticationManager AuthenticationManager => HttpContext.GetOwinContext().Authentication;
 
         private void AddErrors(IdentityResult result)
         {
@@ -596,7 +751,7 @@ namespace Planner.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Profile", "Home");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

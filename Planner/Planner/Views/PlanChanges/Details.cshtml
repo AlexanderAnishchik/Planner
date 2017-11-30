@@ -1,0 +1,82 @@
+﻿@model Domain.Models.PlanChange
+
+@{
+    ViewBag.Title = "Детальніше";
+}
+
+<h2>Детальніше</h2>
+
+<div>
+    <h4>Зміни до індивідуального плану</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ApplicationUser.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ApplicationUser.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Semester)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Semester)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TypesfJobs)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TypesfJobs)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Changes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Changes)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.PlannedVolume)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.PlannedVolume)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActualVolume)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActualVolume)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Base)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Base)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Signature)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Signature)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Редагування", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Повернутися до списку", "Index")
+</p>

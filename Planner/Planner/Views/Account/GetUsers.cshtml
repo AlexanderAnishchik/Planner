@@ -1,21 +1,27 @@
-﻿@model Planner.Models.GetUsersModel
-@{
+﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "GetUsers";
 }
-
-<div>
+<script src="~/Scripts/App/Controllers/getUsersController.js"></script>
+<div class="content-wrapper " ng-controller="getUsersController as guCtrl" ng-init="guCtrl.init()" style="height: 900px!important; overflow-y: scroll;">
+    <div style="width:600px; margin: 0 auto;">
+        <h3 style="margin: 0 auto; width: 150px;">Користувачі</h3>
+        <br />
+        <input type="text" class="form-control" ng-model="searchName" placeholder="Введiть ПIБ або поштову скриньку" />
+    </div>
+    
     <table align="center">
-        <caption><h3>Користувачі</h3></caption>
-        <td><hr /></td>
-        <td><hr /></td>
-        @foreach (var user in Model.UserList)
-        {
-            <tr>
-                <td><h3>@user.Email</h3></td>
-                <td><a href="~/Account/Edit?userName=@user.Email" class="btn btn-primary">Редагувати</a></td>
-            </tr>
-        }
+        <tr>
+            <td width="400"><h4>ПIБ</h4></td>
+            <td width="400"><h4>Поштова скринька</h4></td>
+        </tr>
+        <tr ng-repeat="user in guCtrl.users | orderBy: 'Name' | filter:searchName">
+
+            <td width="400"><h5>{{user.Name}}</h5></td>
+            <td width="400"><h5>{{user.Email}}</h5></td>
+            <td ><a href="~/Account/Edit?userName={{user.Email}}" style="font-size: 16px!important" class="btn btn-primary">Редагувати</a></td>
+            <td><a ng-click="guCtrl.ToggleActive(user)" ng-class="{'btn btn-primary':!user.IsActive, 'btn btn-danger': user.IsActive}" style="font-size: 16px">{{ user.IsActive?"Деактивувати":"Активувати"}}</a></td>
+        </tr>
     </table>
 </div>
 

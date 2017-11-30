@@ -1,0 +1,30 @@
+﻿@model Domain.Models.Course
+
+@{
+    ViewBag.Title = "Детальніше";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="content-wrapper " style="height: 900px!important; overflow-y: scroll;">
+    <div style="width:600px; margin: 0 auto;">
+        <p style="font-size: 24px!important" class="login-box-msg">Детальніше</p>
+        <br />
+    </div>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.LabelFor(model => model.Literal, "Курс", htmlAttributes: new { @style = "font-weight: bold; font-size: 14px" })
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Literal)
+            </dd>
+
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Повернутися до списку", "Index", new { }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+    </p>
+</div>

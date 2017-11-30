@@ -1,0 +1,65 @@
+﻿@model IEnumerable<Domain.Models.IndivPlanFields>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Список робіт інливідульного плану";
+}
+
+
+
+<div class="content-wrapper">
+    <div style="width:600px; margin: 0 auto;">
+        <p style="font-size: 24px!important" class="login-box-msg">Список робіт інливідульного плану</p>
+        <br />
+    </div>
+    <table class="table">
+        <tr>
+            <td><a href="~/IndivPlanFields/Create" style="font-size: 16px!important" class="btn btn-primary">Створити</a></td>
+        </tr>
+        <tr>
+            <th>
+                <p style="font-size: 10px!important" class="login-box-msg">Назва роботи індивідуального плану</p>
+            </th>
+            <th>
+                <p style="font-size: 10px!important" class="login-box-msg">Повна назва</p>
+            </th>
+            <th>
+                <p style="font-size: 10px!important" class="login-box-msg">Англійська назва</p>
+            </th>
+            <th>
+                <p style="font-size: 10px!important" class="login-box-msg">Суфікс</p>
+            </th>
+            <th>
+                <p style="font-size: 10px!important" class="login-box-msg">Назва розділу</p>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td style="font-size: 7px!important">
+                    @Html.DisplayFor(modelItem => item.IndPlanType.Name)
+                </td>
+                <td style="font-size: 7px!important">
+                    @Html.DisplayFor(modelItem => item.DisplayName)
+                </td>
+                <td style="font-size: 7px!important">
+                    @Html.DisplayFor(modelItem => item.SchemaName)
+                </td>
+                <td style="font-size: 7px!important">
+                    @Html.DisplayFor(modelItem => item.Suffix)
+                </td>
+                <td style="font-size: 7px!important">
+                    @Html.DisplayFor(modelItem => item.TabName)
+                </td>
+                <td>
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+                    @Html.ActionLink("Детальніше", "Details", new { id = item.Id }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>

@@ -1,0 +1,100 @@
+﻿@model Planner.Models.EditModel
+@using Domain.Models
+@using System.Reflection
+@using System.ComponentModel.DataAnnotations
+
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="form-group">
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" ng-cloak data-ng-init="registerCtrl.init()">
+            <p class="login-box-msg">Головна сторінка</p>
+            <hr />
+            <div class="row">
+                @*@Html.Action("Edit", "Account", new { userName = User.Identity.Name })*@
+                <div class="form-group">
+                    <table class="table">
+                        <tr>
+                            <td>
+                                E-mail:
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(m => m.Email)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                П.I.Б.
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(m => m.LastName) @Html.DisplayTextFor(m => m.FirstName) @Html.DisplayTextFor(m => m.ThirdName)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Google Scholar
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(m => m.ScholarLink)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Orcid Scholar
+                            </td>
+                            <td>
+                                @Html.DisplayTextFor(m => m.OrcidLink)
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Ступiнь
+                            </td>
+                            <td>
+                                <!--Html.Raw(((DisplayAttribute)typeof(AcademicTitleEnum).GetMember(Model.AcademicTitleEnum.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0]).Name)-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Звання
+                            </td>
+                            <td>
+                                <!-- Html.Raw(((DisplayAttribute)typeof(DegreeEnum).GetMember(Model.DegreeEnum.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0]).Name)-->
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Посада
+                            </td>
+                            <td>
+                                <!-- Html.Raw(((DisplayAttribute)typeof(PositionEnum).GetMember(Model.PositionEnum.ToString())[0].GetCustomAttributes(typeof(DisplayAttribute), false)[0]).Name)-->
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+
+
+                @using (Html.BeginForm("Edit", "Home", FormMethod.Post, new { @class = "", role = "form", enctype = "multipart/form-data", @data_ajax = "false" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                    
+
+                    <div class="row">
+                        <div class="col-xs-8">
+                        </div><!-- /.col -->
+                        <div class="col-xs-4">
+                            <a href="~/Account/Edit?userName=@User.Identity.Name" type="submit" class="btn btn-primary btn-block btn-flat">Редагувати</a>
+                        </div><!-- /.col -->
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

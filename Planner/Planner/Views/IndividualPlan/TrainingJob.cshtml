@@ -1,11 +1,14 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Навчальна робота";
 }
-
+@model Domain.Models.IndPlanType
 <link href="~/Scripts/jqGrid/css/ui.jqgrid.css" rel="stylesheet" />
-<script src="~/Scripts/jqGrid/js/i18n/grid.locale-ru.js"></script>
+<link href="~/Scripts/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+<script src="~/Scripts/jqGrid/js/i18n/grid.locale-uk.js"></script>
 <script src="~/Scripts/jqGrid/js/jquery.jqGrid.min.js"></script>
-
+<br><br><br><br>
 <div class="content-wrapper">
     <table id="Training"></table>
     <div id="TrainingJob"></div>

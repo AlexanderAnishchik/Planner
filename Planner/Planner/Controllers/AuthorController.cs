@@ -1,5 +1,6 @@
 ﻿using Domain.Helpers;
 using Domain.Models;
+using Planner.Filters;
 using Planner.Models;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using System.Web.Routing;
 namespace Planner.Controllers
 {
 	[Authorize]
-    public class AuthorController : Controller
+	public class AuthorController : Controller
     {
 		private ApplicationUser user;
 		protected override void Initialize(RequestContext requestContext)

@@ -3,88 +3,99 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     ViewBag.Title = "Нові користувачі";
 }
-<div class="login-box">
-    <div class="login-box-body" data-ng-controller="registerController as registerCtrl" data-ng-init="registerCtrl.init()">
-        @ViewBag.userAdd
-        <p class="login-box-msg">Реєстрація нового користувача</p>
-        @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "", name = "userRegisterForm", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            <hr />
-            @Html.ValidationSummary("", new { @class = "text-danger" })
-            <div class="form-group has-feedback">
-                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", ng_pattern = @"/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/", placeholder = "Електронна адреса", required = "", ng_model = "Email" })
-                <span ng-show="userRegisterForm.Email.$error.required && userRegisterForm.Email.$touched">Це поле повинно бути заповненим.</span>
-                <span ng-show="userRegisterForm.Email.$error.pattern">Можна використовувати тільки букви латинського алфавіту (a-z), цифри і точки.</span>
-            </div>
+<script src="~/Scripts/App/Factories/rolesFactory.js"></script>
+<div class="content-wrapper">
+    <div class="form-group">
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" data-ng-init="registerCtrl.init()">
+            @ViewBag.userAdd
+            <p class="login-box-msg">Реєстрація нового користувача</p>
+            @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "", name = "userRegisterForm", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <hr />
+                @Html.ValidationSummary("", new { @class = "text-danger" })
                 <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", ng_pattern = @"/^([^0-9]*){4,50}$/", placeholder = "Прізвище", required = "", ng_model = "LastName" })
-                    <span ng-show="userRegisterForm.LastName.$error.required && userRegisterForm.LastName.$touched">Це поле повинно бути заповненим.</span>
-                    <span ng-show="userRegisterForm.LastName.$error.pattern">Введіть коректне прізвище! Поле не може мати цифорвих значень!</span>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", type = "email", ng_pattern = @"/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/", placeholder = "Електронна адреса", required = "", ng_model = "Email" })
+                    <span ng-show="userRegisterForm.Email.$error.required && userRegisterForm.Email.$touched">Це поле повинно бути заповненим.</span>
+                    <span ng-show="userRegisterForm.Email.$error.pattern">Можна використовувати тільки букви латинського алфавіту (a-z), цифри і точки.</span>
                 </div>
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", ng_pattern = @"/^([^0-9]*){4,50}$/", placeholder = "Ім'я", required = "", ng_model = "FirstName" })
-                    <span ng-show="userRegisterForm.FirstName.$error.required && userRegisterForm.FirstName.$touched">Це поле повинно бути заповненим.</span>
-                    <span ng-show="userRegisterForm.FirstName.$error.pattern">Введіть коректне ім'я! Поле не може мати цифорвих значень!</span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.ThirdName, new { @class = "form-control", ng_pattern = @"/^([^0-9]*){4,50}$/", placeholder = "По батькові", required = "", ng_model = "ThirdName" })
-                    <span ng-show="userRegisterForm.ThirdName.$error.required && userRegisterForm.ThirdName.$touched">Це поле повинно бути заповненим.</span>
-                    <span ng-show="userRegisterForm.ThirdName.$error.pattern">Заповніть поле по-батькові коректно! Поле не може мати цифорвих значень!</span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", ng_pattern = @"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,/]).{8,}$/", placeholder = "Пароль", required = "", ng_model = "Password" })
-                    <span ng-show="userRegisterForm.Password.$error.required && userRegisterForm.Password.$touched">Це поле повинно бути заповненим.</span>
-                    <span ng-show="userRegisterForm.Password.$error.pattern">Пароль повинен мати: <br>- мінімум 8 знаків; <br>- принаймні один спеціальний символ;
-                        <br>- принаймні одну літеру верхнього регістру англійського алфавіту; <br>- принаймні одну літеру нижнього регістру англійського алфавіту;
-                        <br>- принаймні одну цифру; <br>- принаймні один спеціальний символ;
-                    </span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", ng_pattern = @"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,/]).{8,}$/", placeholder = "Підтвердіть пароль", required = "", ng_model = "ConfirmPassword" })
-                    <span ng-show="userRegisterForm.Password.$error.required && userRegisterForm.Password.$touched">Це поле повинно бути заповненим.</span>
-                    <span ng-show="Password != ConfirmPassword && userRegisterForm.ConfirmPassword.$touched">Паролі не співпадають. Повторіть спробу.</span>
-                    <span ng-show="userRegisterForm.Password.$error.pattern">Пароль повинен мати: <br>- мінімум 8 знаків; <br>- принаймні один спеціальний символ;
-                    <br>- принаймні одну літеру верхнього регістру англійського алфавіту; <br>- принаймні одну літеру нижнього регістру англійського алфавіту;
-                    <br>- принаймні одну цифру; <br>- принаймні один спеціальний символ;
-                    </span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.ScholarLink, new { @class = "form-control", type = "email", ng_pattern = @"/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/", placeholder = "Профiль у Google Scholar", ng_model = "ScholarLink" })
-                    <span ng-show="userRegisterForm.ScholarLink.$error.pattern">Можна використовувати тільки букви латинського алфавіту (a-z), цифри і точки.</span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.TextBoxFor(m => m.OrcidLink, new { @class = "form-control", type = "email", ng_pattern = @"/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/", placeholder = "Профiль у ORCID", ng_model = "OrcidLink" })
-                    <span ng-show="userRegisterForm.OrcidLink.$error.pattern">Можна використовувати тільки букви латинського алфавіту (a-z), цифри і точки.</span>
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.EnumDropDownListFor(m => m.AcademicTitleEnum, "-- Виберiть ступiнь --", new { @class = "form-control", ng_model = "AcademicTitleEnum" })
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.EnumDropDownListFor(m => m.DegreeEnum, "-- Виберiть звання --", new { @class = "form-control", ng_model = "DegreeEnum" })
-                </div>
-                <div class="form-group has-feedback">
-                    @Html.EnumDropDownListFor(m => m.PositionEnum, "-- Виберiть посаду --", new { @class = "form-control", ng_model = "PositionEnum" })
-                </div>
-                <div class="form-group has-feedback">
-                    <select class="form-control" data-ng-model="faculty"
-                            data-ng-options="c.Id as c.Name for c in faculties">
-                        <option value="">-- Виберiть факультет--</option>
-                    </select>
-                </div>
-                <div class="form-group has-feedback">
-                    <select class="form-control" name="departmentId" data-ng-model="department" data-ng-disabled="!faculty"
-                            data-ng-options="s.Name for s in departments track by s.Id">
-                        <option value="">--Виберiть кафедру--</option>
-                    </select>
-                </div>
-                <div class="row">
-                    <div class="col-xs-8">
-                    </div><!-- /.col -->
-                    <div class="col-xs-4">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat" ng-disabled="!userRegisterForm.$valid || AcademicTitleEnum === '0' || DegreeEnum === '0'|| PositionEnum === '0' || !faculty || !department || Password != ConfirmPassword">Підтвердити</button>
-                    </div><!-- /.col -->
-                </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", ng_pattern = @"/^([^0-9]*){4,50}$/", placeholder = "Прізвище", required = "", ng_model = "LastName" })
+                        <span ng-show="userRegisterForm.LastName.$error.required && userRegisterForm.LastName.$touched">Це поле повинно бути заповненим.</span>
+                        <span ng-show="userRegisterForm.LastName.$error.pattern">Введіть коректне прізвище! Поле не може мати цифорвих значень!</span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", ng_pattern = @"/^([^0-9]*){4,50}$/", placeholder = "Ім'я", required = "", ng_model = "FirstName" })
+                        <span ng-show="userRegisterForm.FirstName.$error.required && userRegisterForm.FirstName.$touched">Це поле повинно бути заповненим.</span>
+                        <span ng-show="userRegisterForm.FirstName.$error.pattern">Введіть коректне ім'я! Поле не може мати цифорвих значень!</span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.ThirdName, new { @class = "form-control", ng_pattern = @"/^([^0-9]*){4,50}$/", placeholder = "По батькові", required = "", ng_model = "ThirdName" })
+                        <span ng-show="userRegisterForm.ThirdName.$error.required && userRegisterForm.ThirdName.$touched">Це поле повинно бути заповненим.</span>
+                        <span ng-show="userRegisterForm.ThirdName.$error.pattern">Заповніть поле по-батькові коректно! Поле не може мати цифорвих значень!</span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(m => m.Password, new { @class = "form-control", ng_pattern = @"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,/]).{8,}$/", placeholder = "Пароль", required = "", ng_model = "Password" })
+                        <span ng-show="userRegisterForm.Password.$error.required && userRegisterForm.Password.$touched">Це поле повинно бути заповненим.</span>
+                        <span ng-show="userRegisterForm.Password.$error.pattern">
+                            Пароль повинен мати: <br>- мінімум 8 знаків; <br>- принаймні один спеціальний символ;
+                            <br>- принаймні одну літеру верхнього регістру англійського алфавіту; <br>- принаймні одну літеру нижнього регістру англійського алфавіту;
+                            <br>- принаймні одну цифру; <br>- принаймні один спеціальний символ;
+                        </span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", ng_pattern = @"/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-.,/]).{8,}$/", placeholder = "Підтвердіть пароль", required = "", ng_model = "ConfirmPassword" })
+                        <span ng-show="userRegisterForm.Password.$error.required && userRegisterForm.Password.$touched">Це поле повинно бути заповненим.</span>
+                        <span ng-show="Password != ConfirmPassword && userRegisterForm.ConfirmPassword.$touched">Паролі не співпадають. Повторіть спробу.</span>
+                        <span ng-show="userRegisterForm.Password.$error.pattern">
+                            Пароль повинен мати: <br>- мінімум 8 знаків; <br>- принаймні один спеціальний символ;
+                            <br>- принаймні одну літеру верхнього регістру англійського алфавіту; <br>- принаймні одну літеру нижнього регістру англійського алфавіту;
+                            <br>- принаймні одну цифру; <br>- принаймні один спеціальний символ;
+                        </span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.ScholarLink, new { @class = "form-control", type = "email", ng_pattern = @"/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/", placeholder = "Профiль у Google Scholar", ng_model = "ScholarLink" })
+                        <span ng-show="userRegisterForm.ScholarLink.$error.pattern">Можна використовувати тільки букви латинського алфавіту (a-z), цифри і точки.</span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.TextBoxFor(m => m.OrcidLink, new { @class = "form-control", type = "email", ng_pattern = @"/^[-._a-z0-9]+@(?:[a-z0-9][-a-z0-9]+\.)+[a-z]{2,6}$/", placeholder = "Профiль у ORCID", ng_model = "OrcidLink" })
+                        <span ng-show="userRegisterForm.OrcidLink.$error.pattern">Можна використовувати тільки букви латинського алфавіту (a-z), цифри і точки.</span>
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.EnumDropDownListFor(m => m.AcademicTitleEnum, "-- Виберiть ступiнь --", new { @class = "form-control", ng_model = "AcademicTitleEnum" })
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.EnumDropDownListFor(m => m.DegreeEnum, "-- Виберiть звання --", new { @class = "form-control", ng_model = "DegreeEnum" })
+                    </div>
+                    <div class="form-group has-feedback">
+                        @Html.EnumDropDownListFor(m => m.PositionEnum, "-- Виберiть посаду --", new { @class = "form-control", ng_model = "PositionEnum" })
+                    </div>
+                    <div class="form-group has-feedback">
+                        <select class="form-control" data-ng-model="faculty" name="FacultyId"
+                                data-ng-options="c.Name for c in faculties track by c.Id" required>
+                            <option value="">-- Виберiть факультет--</option>
+                        </select>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <select class="form-control" name="DepartmentId" data-ng-model="department" data-ng-disabled="!faculty"
+                                data-ng-options="s.Name for s in departments track by s.Id" required>
+                            <option value="">--Виберiть кафедру--</option>
+                        </select>
+                    </div>
+                    <div class="form-group has-feedback">
+                        <select class="form-control" name="role">
+                            <option value="User" selected>--Виберiть роль користувача--</option>
+                            <option ng-repeat="role in roles" value="{{role.Name}}">{{rolesFactory[role.Name]}}</option>
+                        </select>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-8">
+                        </div><!-- /.col -->
+                        <div class="col-xs-4">
+                            <button type="submit" class="btn btn-primary btn-block btn-flat" ng-disabled="!userRegisterForm.$valid || AcademicTitleEnum === '0' || DegreeEnum === '0'|| PositionEnum === '0' || !faculty || !department || Password != ConfirmPassword">Підтвердити</button>
+                        </div><!-- /.col -->
+                    </div>
             }
-    </div><!-- /.login-box-body -->
+        </div><!-- /.login-box-body -->
+    </div>
 </div><!-- /.login-box -->

@@ -1,0 +1,22 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Методична робота";
+}
+@model Domain.Models.IndPlanType
+<link href="~/Scripts/jqGrid/css/ui.jqgrid.css" rel="stylesheet" />
+<link href="~/Scripts/jquery-ui-1.12.1/jquery-ui.css" rel="stylesheet" />
+<script src="~/Scripts/jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+<script src="~/Scripts/jqGrid/js/i18n/grid.locale-uk.js"></script>
+<script src="~/Scripts/jqGrid/js/jquery.jqGrid.min.js"></script>
+<br><br><br><br>
+<div class="content-wrapper">
+    @*<a href="Index" class="small-box-footer">Повернутися назад <i class="fa fa-arrow-circle-left"></i></a>*@
+    <table id="JQTable"></table>
+    <div id="JQPager"></div>
+    @*<script src="~/Scripts/IndividualPlan/PlnaMethodicalWork.js"></script>
+    <script src="~/Scripts/IndividualPlan/MSMJQgrid.js"></script>*@
+    <script src="~/Scripts/App/Services/indivPlanService.js"></script>
+    <script src="~/Scripts/App/Controllers/individualPlanController.js"></script>
+    <div ng-controller="individualPlanController as ctrl" ng-init='ctrl.init(@Html.Raw(Json.Encode(Model)))' ng-include="'/Content/Templates/IndivPlanTable.html'">
+    </div>
+</div>

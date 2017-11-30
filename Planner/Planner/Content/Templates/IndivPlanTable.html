@@ -1,0 +1,31 @@
+﻿<div class="scientificwork_tabform">
+    <ul class="nav nav-tabs nav-justified">
+        <li ng-repeat="tab in data">
+            <a ng-click="changeTab(tab.TabName)" ng-href="#">{{tab.TabName}}</a>
+        </li>
+    </ul>
+    <div class="tab-content">
+        <div ng-repeat="tab in data" ng-show="checkTab(tab.TabName)">
+            <h6>{{tab.TabName}}</h6>
+            <div style="    position: relative;left: 75%;">
+                <p>Фактичний об`єм  Плановий об`єм</p>
+            </div>
+            <div>
+                <ul class="scientificwork_form">
+                    <li ng-repeat="field in tab.Fields">
+                        <p>{{field.DisplayName}}</p>
+                        <input type="text" ng-model="model[field.SchemaName].Result" required />
+                        <input type="text" ng-model="model[field.SchemaName].PlannedValue" required />
+                    </li>
+                </ul>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-8">
+                </div><!-- /.col -->
+                <div class="col-xs-4">
+                    <input type="button" class="btn btn-primary btn-block btn-flat" value="Зберегти" ng-click="saveData()" />
+                </div><!-- /.col -->
+            </div>
+        </div>
+    </div>

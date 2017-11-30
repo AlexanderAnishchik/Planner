@@ -1,6 +1,8 @@
 ﻿using Domain.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web;
 
 namespace Planner.Models
 {
@@ -104,14 +106,25 @@ namespace Planner.Models
 		public string ScholarLink { get; set; }
 		[Display(Name = "Профiль у ORCID")]
 		public string OrcidLink { get; set; }
+        [Display(Name = "Роль")]
+        public string Role { get; set; }
 		public string DepartmentId { get; set; }
 	}
 
     public class GetUsersModel
     {
         [Display(Name = "UserList")]
-        public List<ApplicationUser> UserList { get; set; }
+        public List<EditingUser> UserList { get; set; }
     }
+
+	public class EditingUser
+	{
+		public String Id { get; set; }
+		public String Name { get; set; }
+		public String PositionId { get; set; }
+		public String Email { get; set; }
+        public bool IsActive { get; set; }
+	}
 
     public class EditModel
     {
@@ -130,6 +143,8 @@ namespace Planner.Models
         [Display(Name = "По батькові")]
         public string ThirdName { get; set; }
 
+        [Display(Name = "Аватар")]
+        public HttpPostedFileBase ProfilePicture { get; set; }
         [Display(Name = "Вчена ступінь")]
         [Range(1, int.MaxValue, ErrorMessage = "Виберiть вчену ступiнь")]
         public AcademicTitleEnum AcademicTitleEnum { get; set; }
@@ -143,7 +158,11 @@ namespace Planner.Models
         public string ScholarLink { get; set; }
         [Display(Name = "Профiль у ORCID")]
         public string OrcidLink { get; set; }
-    }
+		[Display(Name = "Роль")]
+		public string Role { get; set; }
+		public string FacultyId { get; set; }
+		public string DepartmentId { get; set; }
+	}
 
     public class ResetPasswordViewModel
     {

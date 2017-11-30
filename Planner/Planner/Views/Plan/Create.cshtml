@@ -1,7 +1,8 @@
 ﻿@model Domain.Models.ScientificPublishing
-@{    
-    ViewBag.Title = "Створення плану";
+@{
+    ViewBag.Title = "Створення плану ";
 }
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -33,57 +34,90 @@
                         </div><!-- /. tools -->
                     </div>
                     <div class="box-body">
-                        <form action="~/Plan/Create" method="post" name="CreatePlan" novalidate>
-                            
+                        <form action="~/Plan/Create" method="post" name="planCreationForm" novalidate>
+                            @Html.ValidationSummary("", new { @class = "text-danger" })
                             <div class="form-group">
-                                <input type="text" class="form-control" name="Monographs" placeholder="Видання монографій (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="Monographs" class="form-control" name="Monographs" placeholder="Видання монографій (кількість)">
+                                <span ng-show="planCreationForm.Monographs.$error.required && planCreationForm.Monographs.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.Monographs.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.Monographs.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="MonographsNationalPublications" placeholder="у вітчизняний виданнях">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="MonographsNationalPublications" class="form-control" name="MonographsNationalPublications" placeholder="у вітчизняний виданнях">
+                                <span ng-show="planCreationForm.MonographsNationalPublications.$error.required && planCreationForm.MonographsNationalPublications.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.MonographsNationalPublications.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.MonographsNationalPublications.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="MonographsForeignJournals" placeholder="у зарубіжних виданнях">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="MonographsForeignJournals" class="form-control" name="MonographsForeignJournals" placeholder="у зарубіжних виданнях">
+                                <span ng-show="planCreationForm.MonographsForeignJournals.$error.required && planCreationForm.MonographsForeignJournals.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.MonographsForeignJournals.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.MonographsForeignJournals.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="AllPublications" placeholder="Всього публікацій">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="AllPublications" class="form-control" name="AllPublications" placeholder="Всього публікацій">
+                                <span ng-show="planCreationForm.AllPublications.$error.required && planCreationForm.AllPublications.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.AllPublications.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.AllPublications.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="ScientificPublicationsInScopus" placeholder="наукові публікаціі в Scopus (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="ScientificPublicationsInScopus" class="form-control" name="ScientificPublicationsInScopus" placeholder="наукові публікаціі в Scopus (кількість)">
+                                <span ng-show="planCreationForm.ScientificPublicationsInScopus.$error.required && planCreationForm.ScientificPublicationsInScopus.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.ScientificPublicationsInScopus.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.ScientificPublicationsInScopus.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="ArticlesThesesInNmbd" placeholder="публікацій (статі, тези), у виданнях з міжнародних науково-метричних баз даних (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="ArticlesThesesInNmbd" class="form-control" name="ArticlesThesesInNmbd" placeholder="публікацій (статі, тези), у виданнях з міжнародних науково-метричних баз даних (кількість)">
+                                <span ng-show="planCreationForm.ArticlesThesesInNmbd.$error.required && planCreationForm.ArticlesThesesInNmbd.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.ArticlesThesesInNmbd.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.ArticlesThesesInNmbd.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="ScientificPublicationsInForeignJournals" placeholder="наукові публікації у зарубіжних виданнях (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="ScientificPublicationsInForeignJournals" class="form-control" name="ScientificPublicationsInForeignJournals" placeholder="наукові публікації у зарубіжних виданнях (кількість)">
+                                <span ng-show="planCreationForm.ScientificPublicationsInForeignJournals.$error.required && planCreationForm.ScientificPublicationsInForeignJournals.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.ScientificPublicationsInForeignJournals.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.ScientificPublicationsInForeignJournals.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="ArticlesInProfessionalPublications" placeholder="статті у фахових видання (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="ArticlesInProfessionalPublications" class="form-control" name="ArticlesInProfessionalPublications" placeholder="статті у фахових видання (кількість)">
+                                <span ng-show="planCreationForm.ArticlesInProfessionalPublications.$error.required && planCreationForm.ArticlesInProfessionalPublications.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.ArticlesInProfessionalPublications.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.ArticlesInProfessionalPublications.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="ScientificArticlesInForeignLanguages" placeholder="публікація наукових статей іноземною мовою (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="ScientificArticlesInForeignLanguages" class="form-control" name="ScientificArticlesInForeignLanguages" placeholder="публікація наукових статей іноземною мовою (кількість)">
+                                <span ng-show="planCreationForm.ScientificArticlesInForeignLanguages.$error.required && planCreationForm.ScientificArticlesInForeignLanguages.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.ScientificArticlesInForeignLanguages.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.ScientificArticlesInForeignLanguages.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="text" class="form-control" name="Abstracts" placeholder="тези доповідей (кількість)">
+                                <input type="number" min="0" required ng-pattern="/^\d+$/" ng-model="Abstracts" class="form-control" name="Abstracts" placeholder="тези доповідей (кількість)">
+                                <span ng-show="planCreationForm.Abstracts.$error.required && planCreationForm.Abstracts.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.Abstracts.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.Abstracts.$error.min">Значення повинно бути додатнiм числом.</span>
                             </div>
                             <div class="form-group">
-                                <input type="number" class="form-control" name="Year" placeholder="Рік">
+                                <input type="number" min="1930" max="2100" required ng-pattern="/^\d+$/" ng-model="Year" class="form-control" name="Year" placeholder="Рік">
+                                <span ng-show="planCreationForm.Year.$error.required && planCreationForm.Year.$touched">Поле обов'язкове.</span>
+                                <span ng-show="planCreationForm.Year.$error.pattern">Значення повинно бути цiлим числом.</span>
+                                <span ng-show="planCreationForm.Year.$error.min || planCreationForm.Year.$error.max">Значення повинно бути вiд 1930 до 2100.</span>
                             </div>
 
 
-                            
+
                             <div class="box-footer clearfix">
-                                <input type="submit" class="pull-right btn btn-default" value="Додати" />
+                                <input type="submit" class="pull-right btn btn-default" value="Додати" ng-disabled="!planCreationForm.$valid" />
                             </div>
                         </form>
                     </div>
 
                 </div>
 
-            <script>
+                <script>
                 var year = document.forms['CreatePlan']['Year'];
                 year.min = (new Date()).getFullYear()-2;
                 year.max = (new Date()).getFullYear() + 5;
-            </script>
+                </script>
 
             </section><!-- /.Left col -->
             <!-- right col (We are only adding the ID to make the widgets sortable)-->
@@ -92,4 +126,3 @@
 
     </section><!-- /.content -->
 </div><!-- /.content-wrapper -->
-

@@ -1,0 +1,303 @@
+﻿@model IEnumerable<Domain.Models.PlanTrainingJob>
+
+@{
+    ViewBag.Title = "Навчальна робота";
+}
+
+<h2>Список навчальних робіт</h2>
+
+<p>
+    @Html.ActionLink("Додати нову", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ApplicationUser.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EducationForm)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Subject)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DSD)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Course)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CountStudent)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.GroupCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedLectures)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneLectures)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedPract)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DonePract)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedLaboratory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneLaboratory)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedSeminar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneSeminar)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedIndividual)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneIndividual)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedConsultation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneConsultation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedExamConsultation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneExamConsultation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedCheckControl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneCheckControl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedCheckLectureControl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneCheckLectureControl)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedEAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneEAT)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedCGS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneCGS)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedCoursework)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneCoursework)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedOffsetting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneOffsetting)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedSemestrExam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneSemestrExam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedTrainingPract)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneTrainingPract)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedStateExam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneStateExam)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedDiploma)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneDiploma)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedPostgraduates)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DonePostgraduates)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PlannedDEK)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DoneDEK)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ApplicationUser.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EducationForm)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.OrderNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Subject)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DSD)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Course)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CountStudent)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.GroupCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedLectures)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneLectures)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedPract)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DonePract)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedLaboratory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneLaboratory)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedSeminar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneSeminar)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedIndividual)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneIndividual)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedConsultation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneConsultation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedExamConsultation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneExamConsultation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedCheckControl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneCheckControl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedCheckLectureControl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneCheckLectureControl)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedEAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneEAT)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedCGS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneCGS)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedCoursework)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneCoursework)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedOffsetting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneOffsetting)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedSemestrExam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneSemestrExam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedTrainingPract)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneTrainingPract)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedStateExam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneStateExam)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedDiploma)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneDiploma)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedPostgraduates)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DonePostgraduates)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PlannedDEK)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DoneDEK)
+        </td>
+        <td>
+            @Html.ActionLink("Редагувати", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Детальніше", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Видалити", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

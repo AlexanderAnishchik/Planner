@@ -1,0 +1,34 @@
+﻿
+@{
+    ViewBag.Title = "Загрузка файла нагрузки";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="content-wrapper">
+    <div class="jumbotron">
+        <div class="container">
+            <p class="lead">
+                Оберіть файл, що містить вхідне навантаження кафедри.
+            </p>
+            <hr class="my"/>
+            <div class="row">
+                @using (Html.BeginForm("UploadEntry", "Distribution", FormMethod.Post, new {enctype = "multipart/form-data"}))
+                {
+                    @Html.AntiForgeryToken()
+                    <div>
+                        @Html.TextBox("file", "", new { type = "file" }) <br />
+                        <div class="row">
+                            <div class="col-xs-4">
+                                <button type="submit" class="btn btn-primary btn-block btn-flat">Підтвердити</button>
+                            </div>
+                            <div class="col-xs-8">
+                                @ViewBag.UploadResult
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+

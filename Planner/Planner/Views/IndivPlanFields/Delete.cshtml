@@ -1,0 +1,70 @@
+﻿@model Domain.Models.IndivPlanFields
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Видалити";
+}
+
+<div class="content-wrapper " style="height: 900px!important; overflow-y: scroll;">
+    <div style="width:600px; margin: 0 auto;">
+        <p style="font-size: 24px!important" class="login-box-msg">Видалити</p>
+        <br />
+    </div>
+    <h3>Ви впевнені, що хочете видалити даний запис?</h3>
+    <div>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                <p style="font-size: 10px!important" class="login-box-msg">Назва роботи індивідуального плану</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.IndPlanType.Name)
+            </dd>
+
+            <dt>
+                <p style="font-size: 10px!important" class="login-box-msg">Повна назва</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.DisplayName)
+            </dd>
+
+            <dt>
+                <p style="font-size: 10px!important" class="login-box-msg">Англійська назва</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SchemaName)
+            </dd>
+
+            <dt>
+                <p style="font-size: 10px!important" class="login-box-msg">Суфікс</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Suffix)
+            </dd>
+
+            <dt>
+                <p style="font-size: 10px!important" class="login-box-msg">Назва розділу</p>
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.TabName)
+            </dd>
+
+        </dl>
+
+
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <p>
+                @Html.ActionLink("Видалити", "Delete", new { id = Model.Id }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+                @Html.ActionLink("Повернутися до списку", "Index", new { }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+            </p>
+        }
+    </div>
+</div>

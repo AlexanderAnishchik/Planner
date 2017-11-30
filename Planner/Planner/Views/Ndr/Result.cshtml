@@ -1,0 +1,40 @@
+﻿@model System.Collections.Generic.List<Domain.Models.NDR>
+
+                                          <div class="row">
+
+                                              <table class="table table-striped table-bordered col-lg-10">
+                                                  <thead>
+                                                      
+
+                                                      <tr>
+                                                          <th>ПIБ викладача</th>
+                                                          <th>Тип</th>
+                                                          <th>Рiвень</th>
+                                                          <th>Назва/Напрям</th>
+                                                          <th>Етап</th>
+                                                          <th>Мiсце та дата проведення</th>
+                                                          <th>ПIБ студента</th>
+                                                          <th>Нагороди</th>
+                                                      </tr>
+                                                  </thead>
+                                                  <tbody>
+
+                                                      @foreach (var ndr in Model)
+                                                      {
+                                                      <tr>
+                                                          <td><b>@ndr.FullName</b></td>
+                                                          <td>@ndr.Type</td>
+                                                          <td>@ndr.Level</td>
+                                                          <td>@ndr.Name</td>
+                                                          <td>@ndr.Step</td>
+                                                          <td>@ndr.Place</td>
+                                                          <td>@ndr.StudentName</td>
+                                                          <td>@ndr.Awards</td>
+                                                      </tr>
+                                                      }
+
+                                                  </tbody>
+
+
+                                              </table>
+                                          </div>
