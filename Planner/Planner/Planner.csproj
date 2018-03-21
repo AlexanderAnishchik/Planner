@@ -25,6 +25,7 @@
     <UseGlobalApplicationHostFile />
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -2058,6 +2059,7 @@
     <Content Include="Views\Home\AboutTeachLoad.cshtml" />
     <Content Include="UploadedFiles\Blank_2017_Ind_plan.xlsx" />
     <Content Include="UploadedFiles\Blank_2017_Ind_plan.xlsm" />
+    <Content Include="Views\Publication\SendToDspace.cshtml" />
     <Content Include="Views\IndivPlanFields\Create.cshtml" />
     <Content Include="Views\Distribution\TeachersRate.cshtml" />
     <Content Include="Views\Distribution\CurrTeachersRate.cshtml" />

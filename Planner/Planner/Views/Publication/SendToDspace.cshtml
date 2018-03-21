@@ -1,0 +1,129 @@
+﻿@{
+    ViewBag.Title = "Створення публікації";
+}
+@model Planner.Models.CreatePublicationViewModel
+<div class="content-wrapper">
+    <div class="form-group">
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" ng-cloak data-ng-init="registerCtrl.init()">
+            @ViewBag.userEdit
+            <p class="login-box-msg">Публікація</p>
+                            <div class="box-body" ng-controller="mainController as mainCtrl" ng-init="mainCtrl.init()">
+                                <form action="http://212.111.199.233/Home/Create" method="post" name="SendToDspace" enctype="multipart/form-data" novalidate>
+                                    @if (!string.IsNullOrEmpty(Model.Error))
+                                    {
+                                        <div class="form-group">
+                                            <p class="panel panel-heading panel-danger alert-danger">@Model.Error</p>
+                                        </div>}
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="name" name="name" placeholder="Назва" ng-pattern="validators.string" required>
+                                        <span ng-show="CreatePublication.name.$error.required && CreatePublication.name.$touched">{{ validationErrors.required }}</span>
+                                        <span ng-show="CreatePublication.name.$error.pattern">{{ validationErrors.string }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="pages" name="pages" placeholder="Об'єм" ng-pattern="validators.float" required>
+                                        <span ng-show="CreatePublication.pages.$error.required && CreatePublication.pages.$touched">{{ validationErrors.required }}</span>
+                                        <span ng-show="CreatePublication.pages.$error.pattern">{{ validationErrors.float }}</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <select name="NMBDId" class="form-control">
+                                            <option value="">НМБД</option>
+                                            @foreach (var nmbd in Model.NMDBs)
+                                            {
+                                                <option value="@nmbd.Id">@nmbd.Name</option>
+                                            }
+
+                                        </select>
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        @Html.EnumDropDownListFor(m => m.StoringType, "Тип", new { @class = "form-control", @required = "required" })
+                                    </div>
+                                    <div class="form-group has-feedback">
+                                        @Html.EnumDropDownListFor(m => m.PublicationType, "Тип видання", new { @class = "form-control", @required = "required" })
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="output" name="output" placeholder="Вихідні дані" ng-pattern="validators.string" required>
+                                        <span ng-show="CreatePublication.output.$error.required && CreatePublication.output.$touched">{{ validationErrors.required }}</span>
+                                        <span ng-show="CreatePublication.output.$error.pattern">{{ validationErrors.string }}</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Закордонне видання:
+                                        <select name="IsOverseas" required>
+                                            <option value="false">Нi</option>
+                                            <option value="true">Так</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="CitationNumberNMBD" name="CitationNumberNMBD" placeholder="Кількість цитувань у виданнях, що входять до НМБД" ng-pattern="validators.integer" required>
+                                        <span ng-show="CreatePublication.CitationNumberNMBD.$error.required && CreatePublication.CitationNumberNMBD.$touched">{{ validationErrors.required }}</span>
+                                        <span ng-show="CreatePublication.CitationNumberNMBD.$error.pattern">{{ validationErrors.integer }}</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" ng-model="ImpactFactorNMBD" name="ImpactFactorNMBD" placeholder="Імпакт-фактор видання, тільки з НМБД" ng-pattern="validators.float">
+                                        <span ng-show="CreatePublication.ImpactFactorNMBD.$error.required && CreatePublication.ImpactFactorNMBD.$touched">{{ validationErrors.required }}</span>
+                                        <span ng-show="CreatePublication.ImpactFactorNMBD.$error.pattern">{{ validationErrors.float }}</span>
+                                    </div>
+
+                                    <div class="form-group has-feedback">
+                                        @Html.EnumDropDownListFor(m => m.ResearchDoneType, "За якою НДР виконано", new { @class = "form-control", @required = "required" })
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input type="date" class="form-control" name="PublishedAt" placeholder="Дата публікації">
+
+                                    </div>
+
+                                    <div class="form-group">
+                                        <div ng-show="mainCtrl.collaborators.length > 0">
+                                            <!--Selected collaborators-->
+                                            <div class="form-inline form-group">
+                                                <div class="form-group collab-tag" ng-repeat="collab in mainCtrl.collaborators">
+                                                    <input value="{{collab.Name}}" type="text" class="panel panel-title text-primary collab-title" readonly>
+                                                    <input value="{{collab.UserId != null ? collab.UserId : collab.CollaboratorId}}" type="hidden" name="CollaboratorsIds" readonly>
+                                                    <button class="btn btn-danger cancel-collab" ng-click="mainCtrl.deleteFromCollaborators($index)">X</button>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                        <div ng-show="mainCtrl.newCollaborators.length > 0">
+                                            <!--New collaborators-->
+                                            <div class="form-inline form-group">
+                                                <div class="form-group collab-tag" ng-repeat="collab in mainCtrl.newCollaborators">
+                                                    <input value="{{collab}}" type="text" class="panel panel-title text-primary collab-title" name="NewCollaboratorsNames">
+                                                    <button class="btn btn-danger cancel-collab" ng-click="mainCtrl.deleteFromNewCollaborators($index)">X</button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        <input type="text" class="form-control" placeholder="Співавтор" ng-model="query" ng-enter="mainCtrl.addNewCollaborators(this.query)">
+                                        <div class="autocomplete-block" ng-class="{'showblock': query.length > 0 }" ng-hide="mainCtrl.teachersList.length==0 || query == ''">
+                                            <div class="autocomplete-row" ng-repeat="teacher in mainCtrl.teachersList | filter:query " ng-click="mainCtrl.addCollaborators(teacher.UserId)">
+                                                {{teacher.Name}}
+                                            </div>
+                                        </div>
+                                     
+                                    </div>
+
+                                    <div class="fonts-size">
+                                        <div class="form-control">
+                                            <span>Документ публикацiї</span>
+                                            <input type="file" name="file" style="display: inline-block; float: right" required aria-required="true">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-8">
+                                        </div><!-- /.col -->
+                                        <div class="col-xs-4">
+                                            <button type="submit" class="btn btn-primary btn-block btn-flat">Підтвердити</button>
+                                        </div><!-- /.col -->
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                </div><!-- /.row (main row) -->
+        </div><!-- /.content-wrapper -->
