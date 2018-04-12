@@ -3,103 +3,99 @@
 }
 
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <h1>
-            Головна сторінка
-            <small>Панель</small>
-        </h1>
-        <ol class="breadcrumb">
-            <li><a href="#"><i class="fa fa-dashboard"></i> Планувальник</a></li>
-            <li class="active">Звiт за кафедрою</li>
-        </ol>
-    </section>
-    <script src="~/Scripts/App/Controllers/departmentController.js"></script>
-    <!-- Main content -->
-    <section class="content" ng-controller="departmentController as ctrl" data-ng-init="ctrl.init()">
-        
+    <div class="form-group"> 
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" ng-cloak data-ng-init="registerCtrl.init()">
+            @ViewBag.userEdit
+            <p class="login-box-msg">Звіт за кафедрою</p>
+            <script src="~/Scripts/App/Controllers/departmentController.js"></script>
+            <!-- Main content -->
+            <section class="content" ng-controller="departmentController as ctrl" data-ng-init="ctrl.init()">
 
-        <!-- Small boxes (Stat box) -->
-        <div class="row">
-            <div class="col-lg-3 col-xs-6">
-                <!-- small box -->
-                <div class="form-group has-feedback">
-                    <select class="form-control" name="departmentId" data-ng-model="departmentForPub"
-                            data-ng-options="s.Name for s in departments track by s.Id">
-                        <option value="">--Виберiть кафедру--</option>
-                    </select>
-                 
-                </div>
-            </div>
-            <div class="col-lg-3 col-xs-6">
-              
-                <div class="form-group has-feedback">
-                   
-                    <label for="from">Проміжок часу</label>
-                    <input type="text" id="from" name="daterange">
-                </div>
-            </div>
-            <div class="col-lg-2 col-xs-6">
-                <div class="small-box bg-gray-light" data-ng-click="showByDateRange()">
-                    <a href="" class="inner btn-block">Показати <i class="glyphicon glyphicon-search"></i></a>
-                </div>
-            </div>
-                <div class="col-lg-2 col-xs-6" data-ng-if="publications.length > 0" ng-cloak>
-                    <!-- small box -->
-                    <div class="small-box bg-gray-light">
-                        <a href="#" class="inner btn-block" ng-click="downloadDepartmentReport()">Завантажити звiт <i class="glyphicon glyphicon-arrow-down"></i></a>
+
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-3 col-xs-6">
+                        <!-- small box -->
+                        <div class="form-group has-feedback">
+                            <label for="from">Кафедра </label>
+                            <select class="form-control" name="departmentId" data-ng-model="departmentForPub"
+                                    data-ng-options="s.Name for s in departments track by s.Id">
+                                <option value="">--Виберiть кафедру--</option>
+                            </select>
+
+                        </div>
                     </div>
+                    <div class="col-lg-3 col-xs-6">
+
+                        <div class="form-group has-feedback">
+
+                            <label for="from">Проміжок часу </label>
+                            <input type="text" id="from" name="daterange">
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-xs-6">
+                        <div class="small-box bg-gray-light" data-ng-click="showByDateRange()">
+                            <a href="" type="submit" class="btn btn-primary btn-block btn-flat">Показати</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-xs-6" data-ng-if="publications.length > 0" ng-cloak>
+                        <!-- small box -->
+                        <div class="small-box bg-gray-light">
+                            <a href="#" type="submit" class="btn btn-primary btn-block btn-flat" ng-click="downloadDepartmentReport()">Друк звіту </a>
+                        </div>
+                    </div>
+
+                    <!-- ./col -->
+                </div><!-- /.row -->
+
+
+                <div class="row" data-ng-show="publications.length > 0" ng-cloak>
+
+                    <table class="table table-striped table-bordered col-lg-10">
+                        <thead>
+                            Публікації за кафедрою
+                        </thead>
+                        <tr>
+                            <th>№</th>
+                            <th>Автори</th>
+                            <th>Назва роботи</th>
+                            <th>Тип видання</th>
+                            <th>Назва видання, дата видання (ЧЧ.ММ.РР)</th>
+                            <th>Обсяг, ум.- друк. арк., усього</th>
+                            <th>Обсяг, ум.- друк. арк., частка кафедри</th>
+                            <th>За кордонне видання</th>
+                            <th>НМБД</th>
+                            <th>Кількість цитувань у виданнях, що входять до НМБД Scopus/Google Scolar</th>
+                            <th>Імпакт-фактор видання, тільки з НМБД</th>
+                            <th>За якою НДР виконано</th>
+                            <th>Назва кафедри</th>
+                        </tr>
+                        <tr data-ng-repeat="pub in publications">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <span ng-repeat="it in pub.Collaborators">
+                                    {{it.Name}}
+                                    {{$index+1 != pub.Collaborators.length ? ',' : ''}}<br />
+                                </span>
+                            </td>
+                            <td>{{pub.Name}}</td>
+                            <td>{{pub.PublicationType}}</td>
+                            <td>{{pub.Output}}</td>
+                            <td>{{pub.Pages}}</td>
+                            <td>{{pub.Pages / pub.Collaborators.length}}</td>
+                            <td>{{pub.IsOverseas ? 'Так' : 'Нi'}}</td>
+                            <td>{{pub.NMBD}}</td>
+                            <td>{{pub.CitationNumberNMBD}}</td>
+                            <td>{{pub.ImpactFactorNMBD}}</td>
+                            <td>{{pub.ResearchDoneType}}</td>
+                            <td>{{pub.DepartmentName}}</td>
+                        </tr>
+
+
+
+                    </table>
                 </div>
-
-                <!-- ./col -->
-            </div><!-- /.row -->
-
-
-        <div class="row" data-ng-show="publications.length > 0" ng-cloak>
-
-            <table class="table table-striped table-bordered col-lg-10">
-                <thead>
-                    Публікації за кафедрою
-                </thead>
-                <tr>
-                    <th>№</th>
-                    <th>Автори</th>
-                    <th>Назва роботи</th>
-                    <th>Тип видання</th>
-                    <th>Назва видання, дата видання (ЧЧ.ММ.РР)</th>
-                    <th>Обсяг, ум.- друк. арк., усього</th>
-                    <th>Обсяг, ум.- друк. арк., частка кафедри</th>
-                    <th>За кордонне видання</th>
-                    <th>НМБД</th>
-                    <th>Кількість цитувань у виданнях, що входять до НМБД Scopus/Google Scolar</th>
-                    <th>Імпакт-фактор видання, тільки з НМБД</th>
-                    <th>За якою НДР виконано</th>
-                    <th>Назва кафедри</th>
-                </tr>                    
-                <tr data-ng-repeat="pub in publications">
-                    <td>{{$index+1}}</td>
-                    <td>
-                        <span ng-repeat="it in pub.Collaborators">
-                            {{it.Name}}
-                            {{$index+1 != pub.Collaborators.length ? ',' : ''}}<br />
-                        </span>
-                    </td>
-                    <td>{{pub.Name}}</td>
-                    <td>{{pub.PublicationType}}</td>
-                    <td>{{pub.Output}}</td>
-                    <td>{{pub.Pages}}</td>
-                    <td>{{pub.Pages / pub.Collaborators.length}}</td>
-                    <td>{{pub.IsOverseas ? 'Так' : 'Нi'}}</td>
-                    <td>{{pub.NMBD}}</td>
-                    <td>{{pub.CitationNumberNMBD}}</td>
-                    <td>{{pub.ImpactFactorNMBD}}</td>
-                    <td>{{pub.ResearchDoneType}}</td>
-                    <td>{{pub.DepartmentName}}</td>
-                </tr>
-
-
-
-            </table>
+            </section>
         </div>
-    </section>
+    </div>
 </div><!-- /.content-wrapper -->

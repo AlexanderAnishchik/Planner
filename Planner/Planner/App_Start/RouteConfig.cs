@@ -16,7 +16,7 @@ namespace Planner
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Dashboard", id = UrlParameter.Optional }
+                defaults: new { controller = "Home", action = "Profile", id = UrlParameter.Optional }
             );
         }
     }

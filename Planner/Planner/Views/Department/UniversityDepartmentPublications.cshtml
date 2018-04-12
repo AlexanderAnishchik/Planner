@@ -1,0 +1,136 @@
+﻿@{
+    ViewBag.Title = "Звiт за університетом";
+}
+<div class="content-wrapper">
+    <div class="form-group">
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" ng-cloak data-ng-init="registerCtrl.init()">
+            @ViewBag.userEdit
+            <p class="login-box-msg">Звiт за університетом</p>
+            <script src="~/Scripts/App/Controllers/departmentController.js"></script>
+            <!-- Main content -->
+            <section class="content" ng-controller="departmentController as ctrl" data-ng-init="ctrl.init()">
+
+
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <select class="form-control" name="departmentId" data-ng-model="departmentForHalfYear"
+                                data-ng-options="s.Name for s in departments track by s.Id">
+                            <option value="">Виберiть кафедру</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <select class="form-control" name="year" data-ng-model="year">
+                            <option value="" selected>Рік</option>
+                            <option data-ng-repeat="y in years" value="{{y}}">{{y}}</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <select class="form-control" name="half" data-ng-model="half">
+                            <option value="" selected>Півріччя</option>
+                            <option value="1">Перше</option>
+                            <option value="2">Друге</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-gray-light" data-ng-click="showHalfYear()">
+                            <a href="" type="submit" class="btn btn-primary btn-block btn-flat">Показати</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                        <!-- small box -->
+                        <div class="small-box bg-gray-light">
+                            <a type="submit" class="btn btn-primary btn-block btn-flat" href="/Department/PrintHalfYearDepartmentReport?depId={{departmentForHalfYear.Id}}&year={{year}}&half={{half}}" class="inner btn-block">Друк звіту</a>
+                        </div>
+                    </div>
+
+                    <!-- ./col -->
+                </div><!-- /.row -->
+
+
+                <div class="row" data-ng-show="ScientificPublishing.Monographs" ng-cloak>
+
+                    <table class="table table-striped table-bordered col-lg-10">
+                        <thead>
+                            Публікації за кафедрою
+                        </thead>
+                        <tr>
+                            <th>Відповідальні підрозділи</th>
+                            <th>Види робіт</th>
+                            <th>Результат, який очікується (показники діяльності кафедри)</th>
+                            <th>Планові значення</th>
+                            <th>Фактичні значення</th>
+                            <th>Відсоток виконання</th>
+                        </tr>
+                        <tr>
+                            <th rowspan="10">НДС</th>
+                            <th rowspan="10">Науково-видавнича</th>
+                            <td>Видання монографій (кількість):</td>
+                            <td>{{ScientificPublishing.Monographs.Item1}}</td>
+                            <td>{{ScientificPublishing.Monographs.Item2}}</td>
+                            <td>{{ScientificPublishing.Monographs.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td> у вітчизняний виданнях</td>
+                            <td>{{ScientificPublishing.MonographsNationalPublications.Item1}}</td>
+                            <td>{{ScientificPublishing.MonographsNationalPublications.Item2}}</td>
+                            <td>{{ScientificPublishing.MonographsNationalPublications.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td> у зарубіжних виданнях</td>
+                            <td>{{ScientificPublishing.MonographsForeignJournals.Item1}}</td>
+                            <td>{{ScientificPublishing.MonographsForeignJournals.Item2}}</td>
+                            <td>{{ScientificPublishing.MonographsForeignJournals.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>ВСЬОГО ПУБЛІКАЦІЙ: в тому числі:</td>
+                            <td>{{ScientificPublishing.AllPublications.Item1}}</td>
+                            <td>{{ScientificPublishing.AllPublications.Item2}}</td>
+                            <td>{{ScientificPublishing.AllPublications.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>наукові публікаціі в Scopus (кількість):</td>
+                            <td>{{ScientificPublishing.ScientificPublicationsInScopus.Item1}}</td>
+                            <td>{{ScientificPublishing.ScientificPublicationsInScopus.Item2}}</td>
+                            <td>{{ScientificPublishing.ScientificPublicationsInScopus.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>публікацій (статі, тези), у виданнях, що входять до міжнародних науково- метричних баз даних (кількість):</td>
+                            <td>{{ScientificPublishing.ArticlesThesesInNmbd.Item1}}</td>
+                            <td>{{ScientificPublishing.ArticlesThesesInNmbd.Item2}}</td>
+                            <td>{{ScientificPublishing.ArticlesThesesInNmbd.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>наукові публікації у зарубіжних виданнях (кількість).</td>
+                            <td>{{ScientificPublishing.ScientificPublicationsInForeignJournals.Item1}}</td>
+                            <td>{{ScientificPublishing.ScientificPublicationsInForeignJournals.Item2}}</td>
+                            <td>{{ScientificPublishing.ScientificPublicationsInForeignJournals.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>статті у фахових видання (кількість):</td>
+                            <td>{{ScientificPublishing.ArticlesInProfessionalPublications.Item1}}</td>
+                            <td>{{ScientificPublishing.ArticlesInProfessionalPublications.Item2}}</td>
+                            <td>{{ScientificPublishing.ArticlesInProfessionalPublications.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>публікація наукових статей іноземною мовою (кількість):</td>
+                            <td>{{ScientificPublishing.ScientificArticlesInForeignLanguages.Item1}}</td>
+                            <td>{{ScientificPublishing.ScientificArticlesInForeignLanguages.Item2}}</td>
+                            <td>{{ScientificPublishing.ScientificArticlesInForeignLanguages.Item3}}</td>
+                        </tr>
+                        <tr>
+                            <td>тези доповідей (кількість).</td>
+                            <td>{{ScientificPublishing.Abstracts.Item1}}</td>
+                            <td>{{ScientificPublishing.Abstracts.Item2}}</td>
+                            <td>{{ScientificPublishing.Abstracts.Item3}}</td>
+                        </tr>
+
+
+                    </table>
+                </div>
+
+            </section>
+        </div><!-- /.content-wrapper -->
+    </div>
+</div>

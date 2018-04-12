@@ -1,0 +1,816 @@
+﻿@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Розподіленні навантаження";
+}
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>*@
+<script src="~/Scripts/App/Controllers/tabController.js"></script>
+<script src="~/Scripts/App/Controllers/distributionController.js"></script>
+
+<style>
+    .table-centered td {
+        text-align: center;
+    }
+    .ui-grid-canvas{
+        text-align: center;
+       /*height:70px!important;*/
+    }
+    
+    .ngdialog-overlay{
+       position: relative;
+    } 
+    .ngdialog-content{
+        border:1px solid #b8bec7;
+    }
+
+    /*.ngdialog.ngdialog-theme-default.custom-width-900 .ngdialog-content {
+        width: 900px!important;
+    }*/
+    .ngdialog.ngdialog-theme-default .ngdialog-content{
+        width: 900px!important;
+    }
+
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+
+    .modal-dialog {
+      display: inline-block;
+      text-align: left;
+      vertical-align: middle;
+      margin-left:15%;
+      width:901px;
+    }  
+</style>
+
+
+<div class="content-wrapper">
+    <div class="content-wrapper" ng-controller="tabController as tCtrl">
+        <section class="content" ng-controller="distributionController as dCtrl" data-ng-init="dCtrl.init(); dCtrl.teachertLoad()">
+            @*Day modal window*@
+            <div id="dayModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <form>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" ng-click="clear(); clearResult()" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <th>Дисципліна</th>
+                                            <th>Факультет</th>
+                                            <th>Спеціальність</th>
+                                            <th>Спеціалізація</th>
+                                            <th>Курс</th>
+                                        </tr>
+                                        <tr>
+                                            <td class="col-md-2" style="white-space:normal;">{{Detail.Subject}}</td>
+                                            <td>{{Detail.Faculty}}</td>
+                                            <td>{{Detail.Specialty}}</td>
+                                            <td>{{Detail.Specialization}}</td>
+                                            <td>{{Detail.Course}}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <table class="table table-hover">
+                                            <tr>
+                                                <td colspan="3"><span class="text-success">{{SuccessfulResult}}</span></td>
+                                            </tr>
+                                            <tr hidden>
+                                                <td><input class="form-control" readonly="readonly" ng-model="DaySemesterId" type="hidden" /></td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Лекції</td>
+                                                <td>{{Detail.Dd.Lecture}}</td>
+                                                <td><input type="number" min="0" ng-model="Lecture" ng-hide="considerLecture" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerLecture" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Практичні</td>
+                                                <td>{{Detail.Dd.Practice}}</td>
+                                                <td><input type="number" min="0" ng-model="Practice" ng-hide="considerPractice" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerPractice" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Лабораторні</td>
+                                                <td>{{Detail.Dd.Lab}}</td>
+                                                <td><input type="number" min="0" ng-model="Lab" ng-hide="considerLab" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerLab" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Семестрові консультації</td>
+                                                <td>{{Detail.Dd.ConsultInSemester}}</td>
+                                                <td><input type="number" min="0" ng-model="ConsultInSemester" ng-hide="considerConsultInSemester" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerConsultInSemester" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Екзаменаційні консультації</td>
+                                                <td>{{Detail.Dd.ConsultForExam}}</td>
+                                                <td><input type="number" min="0" ng-model="ConsultForExam" ng-hide="considerConsultForExam" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerConsultForExam" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Перевірка контр. робіт</td>
+                                                <td>{{Detail.Dd.VerifyingOfTests}}</td>
+                                                <td><input type="number" min="0" ng-model="VerifyingOfTests" ng-hide="considerVerifyingOfTests" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerVerifyingOfTests" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Участь у ДЕК</td>
+                                                <td>{{Detail.Dd.Dek}}</td>
+                                                <td><input type="number" min="0" ng-model="Dek" ng-hide="considerDek" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerDek" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Керівництво дипломними роботами</td>
+                                                <td>{{Detail.Dd.ManagedDiploma}}</td>
+                                                <td><input type="number" min="0" ng-model="ManagedDiploma" ng-hide="considerManagedDiploma" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerManagedDiploma" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                            <tr>
+                                                <td class="text-right">Залік</td>
+                                                <td>{{Detail.Dd.ControlEvaluation}}</td>
+                                                <td><input type="number" min="0" ng-model="ControlEvaluation" ng-hide="considerControlEvaluation" class="wd_input form-control" /></td>
+                                                @*<td>
+                                                        <div class="checkbox">
+                                                            <input type="checkbox" id="additionalDay" class="checkbox_size" data-ng-model="considerControlEvaluation" />
+                                                        </div>
+                                                    </td>*@
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <select select size="29" class="form-control"
+                                                data-ng-model="selectedTeachEntryLoading">
+                                            <option data-ng-repeat="el in teachers" value="{{el.Id}}">
+                                                {{el.LastName}} {{el.FirstName}} {{el.ThirdName}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default btn-primary" ng-click="updateDaySemester(Detail)">Розподілити</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @****@
+            @*Extramural modal window*@
+            <div id="extramuralModal" class="modal fade" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <form>
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" ng-click="clear(); clearResult()" data-dismiss="modal">&times;</button>
+                            </div>
+                            <div class="modal-body">
+                                
+                                <h3 class="text-success">{{SuccessfulResult}}</h3>
+                                
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default btn-primary" ng-click="updateExtramuralSemester(DetailExtramural)">Розподілити</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            @****@
+
+            <div class="row">
+                <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" ng-class="{ active: tCtrl.isSet(1)}">
+                        <a ng-click="tCtrl.setTab(1)"> Денна форма навантаження </a>
+                    </li>
+                    <li role="presentation" ng-class="{ active: tCtrl.isSet(2)}">
+                        <a ng-click="tCtrl.setTab(2)"> Заочна форма навантаження</a>
+                    </li>
+                </ul>
+                <div class="content" ng-show="tCtrl.isSet(1)">
+                    <div class="row">
+                        <div class="form-inline">
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control" data-ng-model="selectedDayEntryLoading">
+                                    <option data-ng-repeat="el in entryLoadings" value="{{el.Id}}">
+                                        {{el.Year}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control" data-ng-model="selectedDaySemester">
+                                    <option data-ng-repeat="s in semesters" value="{{s.Value}}">
+                                        {{s.Caption}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                                <button type="submit"
+                                        class="btn btn-primary btn-flat"
+                                        ng-click="downloadCommonDayFormatReport()">
+                                    Друк звіту
+                                </button>
+                            </div>
+
+                            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                                <button id="btnLoadDay" type="submit" class="btn btn-primary btn-flat" ng-click="fillDayEntryLoad()">
+                                    Показати навантаження
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="additionalDay" data-ng-model="inDayEntry" />Включити вхідне навантаження?
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @*<div class="row" ng-show="dayEntries.length > 0">
+                        <div class="col-xs-3">
+                            <input type="search" class="form-control in" data-ng-model="query" placeholder="Пошук" />
+                            <p></p>
+                        </div>
+                    </div>*@
+                    <div class="row">
+                        <div class="col-xs-12" ng-show="dayEntries.length > 0" ng-cloak>
+
+                            <div id="grid2" ui-grid="gridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-pinning class="grid" style="width:1010px;height: 420px;">
+                            </div>
+
+                            @*<div class="table-responsive">
+                                <table class="table-bordered table-condensed table-centered table-hover">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th> Дії </th>
+                                            <th>№</th>
+                                            <th>Факультет</th>
+                                            <th>Спеціальність</th>
+                                            <th>Спеціалізація</th>
+                                            <th>Курс</th>
+                                            <th>Навчальний ступінь</th>
+                                            <th>Кількість студентів</th>
+                                            <th>К-ть іноземців</th>
+                                            <th>Шифр груп</th>
+                                            <th>К-ть підгруп (17)</th>
+                                            <th>Реальна к-ть студентів</th>
+                                            <th>К-ть підгруп (25)</th>
+                                            <th>К-ть потоків</th>
+                                            <th>Об`єднання потоків</th>
+                                            <th>Примітки</th>
+                                            <th>Дисципліна</th>
+                                            <th>К-ть кредитів ЄКТС</th>
+                                            <th>К-ть годин</th>
+                                            <th>Мова викладання</th>
+                                            <th>К-ть тижнів (1 сем.)</th>
+                                            <th>К-ть тижнів (2 сем.)</th>
+                                            <th>Коефіцієнт (1 сем.)</th>
+                                            <th>Коефіцієнт (2 сем.)</th>
+                                            <th>Департамент</th>
+                                            <th>КР, КП, ДР</th>
+                                            <th>Практика</th>
+                                            <th>К-ть членів ДЕК</th>
+                                            <th ng-show="inDayEntry">Всього годин</th>
+                                            <th ng-show="inDayEntry">Всього</th>
+                                            <th ng-show="inDayEntry">Лекції</th>
+                                            <th ng-show="inDayEntry">Лабораторні</th>
+                                            <th ng-show="inDayEntry">Практичні</th>
+                                            <th ng-show="inDayEntry">Сам. робота</th>
+                                            <th ng-show="inDayEntry">КР(КП), ДР</th>
+                                            <th ng-show="inDayEntry">Екзамен</th>
+                                            <th ng-show="inDayEntry">Залік</th>
+                                            <th hidden>DaySemesterId</th>
+                                            <th>Семестр</th>
+                                            <th>Лекції</th>
+                                            <th>Практичні</th>
+                                            <th>Лабораторні</th>
+                                            <th>Семестрові консультації</th>
+                                            <th>Екзаменаційні консультації</th>
+                                            <th>Перевірка контр. робіт</th>
+                                            <th>КР, КП</th>
+                                            <th>Проведення заліку</th>
+                                            <th>Проведення екзамену</th>
+                                            <th>Керівництво пр. підготовкою</th>
+                                            <th>Участь у ДЕК</th>
+                                            <th>Проведення держ. екзамену</th>
+                                            <th>Керівництво дипломними роботами</th>
+                                            <th>Інше</th>
+                                            <th>Всього за семестр</th>
+                                            <th>АКТИВНІ</th>
+                                            <th>Бонус</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="dE in dayEntries | filter:query as results">
+                                            <!-- Common part -->
+                                            <td>
+                                                <button class="btn btn-xs btn-flat"><span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#dayModal" ng-click="detailDayEntryLoad(dE); clearResult()" aria-hidden="true"></span></button>
+                                            </td>
+                                            <td>{{$index + 1}} </td>
+                                            <td>{{dE.Faculty}}</td>
+                                            <td>{{dE.Specialty}}</td>
+                                            <td>{{dE.Specialization}}</td>
+                                            <td>{{dE.Course}}</td>
+                                            <td>{{dE.EducationDegree}}</td>
+                                            <td>{{dE.StudentsCount}}</td>
+                                            <td>{{dE.ForeignersCount}}</td>
+                                            <td>{{dE.GroupsCipher}}</td>
+                                            <td>{{dE.QuantityOfGroupsA}}</td>
+                                            <td>{{dE.RealQuantityOfGroups}}</td>
+                                            <td>{{dE.QuantityOfGroupsB}}</td>
+                                            <td>{{dE.QuantityOfThreads}}</td>
+                                            <td>{{dE.ConflatedThreads}}</td>
+                                            <td>{{dE.Notes}}</td>
+                                            <td>{{dE.Subject}}</td>
+                                            <td>{{dE.QuantityOfCredits}}</td>
+                                            <td>{{dE.Hours}}</td>
+                                            <td>{{dE.Language}}</td>
+                                            <td>{{dE.QuantityOfWeeksFs}}</td>
+                                            <td>{{dE.QuantityOfWeeksSs}}</td>
+                                            <td>{{dE.CoeficientFs}}</td>
+                                            <td>{{dE.CoeficientSs}}</td>
+                                            <td>{{dE.DepartmentCipher}}</td>
+                                            <td>{{dE.Projects}}</td>
+                                            <td>{{dE.Practices}}</td>
+                                            <td>{{dE.QuantityOfMembers}}</td>
+                                            <!-- Addition part -->
+                                            <td ng-show="inDayEntry">{{dE.DeS.TotalHours}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Total}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Lectures}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Labs}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Practices}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.IndependentWorks}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Courses}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Exam}}</td>
+                                            <td ng-show="inDayEntry">{{dE.DeS.Evaluation}}</td>
+                                            <!-- Calculated part -->
+                                            <td hidden>{{dE.DaySemesterId}}</td>
+                                            <td>{{dE.Dd.Semester}}</td>
+                                            <td>{{dE.Dd.Lecture}}</td>
+                                            <td>{{dE.Dd.Practice}}</td>
+                                            <td>{{dE.Dd.Lab}}</td>
+                                            <td>{{dE.Dd.ConsultInSemester}}</td>
+                                            <td>{{dE.Dd.ConsultForExam}}</td>
+                                            <td>{{dE.Dd.VerifyingOfTests}}</td>
+                                            <td>{{dE.Dd.KR_KP}}</td>
+                                            <td>{{dE.Dd.ControlEvaluation}}</td>
+                                            <td>{{dE.Dd.ControlExam}}</td>
+                                            <td>{{dE.Dd.PracticePreparation}}</td>
+                                            <td>{{dE.Dd.Dek}}</td>
+                                            <td>{{dE.Dd.StateExam}}</td>
+                                            <td>{{dE.Dd.ManagedDiploma}}</td>
+                                            <td>{{dE.Dd.Other}}</td>
+                                            <td>{{dE.Dd.Total}}</td>
+                                            <td>{{dE.Dd.Active}}</td>
+                                            <td>{{dE.Dd.EnglishBonus}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>*@
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Markup for extramural entry load -->
+                <div class="content" ng-show="tCtrl.isSet(2)">
+                    <div class="row">
+                        <div class="form-inline">
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control" ng-model="selectedExtraEntryLoading">
+                                    <option data-ng-repeat="el in entryLoadings" value="{{el.Id}}">
+                                        {{el.Year}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control" ng-model="selectedExtraSemester">
+                                    <option data-ng-repeat="s in semesters" value="{{s.Value}}">
+                                        {{s.Caption}}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                                <button type="submit"
+                                        class="btn btn-primary btn-flat"
+                                        ng-click="downloadCommonExtraFormatReport()">
+                                    Друк звіту
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                                <button id="btnLoadExtra"
+                                        type="submit"
+                                        class="btn btn-primary btn-flat"
+                                        ng-click="fillExtramuralEntryLoad()">
+                                    Показати навантаження
+                                </button>
+                            </div>
+                            <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" id="additionalExtra" data-ng-model="inExtraEntry" />Включити вхідне навантаження?
+                                    </label>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12" ng-show="extramuralEntries.length > 0" ng-clock>
+                            <div id="grid2" ui-grid="extramularGridOptions" ui-grid-selection ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns ui-grid-pinning class="grid" style="width:1010px;height: 420px;">
+                            </div>
+
+                            @*<div class="table-responsive">
+                                <table class="table-bordered table-condensed table-centered table-hover">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th>Дії</th>
+                                            <th>№</th>
+                                            <th>Семестр</th>
+                                            <th>Кафедра</th>
+                                            <th>Дисципліна</th>
+                                            <th>Спеціальність</th>
+                                            <th>НКП</th>
+                                            <th>Курс</th>
+                                            <th>К-ть студентів</th>
+                                            <th>К-ть груп</th>
+                                            <th>К-ть потоків</th>
+                                            <th>Номер потока</th>
+                                            <th>Осн.спеціальність</th>
+                                            <th>Заг.обсяг годин</th>
+                                            <th>Кредити</th>
+                                            <th ng-show="inExtraEntry">Лекції</th>
+                                            <th ng-show="inExtraEntry">Практичні</th>
+                                            <th ng-show="inExtraEntry">Лабораторні</th>
+                                            <th ng-show="inExtraEntry">Інд.робота</th>
+                                            <th ng-show="inExtraEntry">Екзамен</th>
+                                            <th ng-show="inExtraEntry">Залік</th>
+                                            <th ng-show="inExtraEntry">КР КП ДР ДП</th>
+                                            <th ng-show="inExtraEntry">Контр.робота</th>
+                                            <th ng-show="inExtraEntry">Норма на КР ДР ДІ</th>
+
+                                            <th>Лекції</th>
+                                            <th>Практичні</th>
+                                            <th>Лабораторні</th>
+                                            <th>Семестрові консультації</th>
+                                            <th>Екзаменаційні консультації</th>
+                                            <th>Аналітичні огляди(реферати)</th>
+                                            <th>Розрахункові роботи</th>
+                                            <th>КР КП</th>
+                                            <th>Залік</th>
+                                            <th>Іспити(усні)</th>
+                                            <th>Іспити(письмові)</th>
+                                            <th>Перевірка контр.робіт</th>
+                                            <th>Керівництво переддипломною практикою</th>
+                                            <th>Участь в ДЕК</th>
+                                            <th>Перевірка письмових робіт</th>
+                                            <th>Захист</th>
+                                            <th>Всього за семестр</th>
+                                            <th>Активні</th>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr data-ng-repeat="eE in extramuralEntries">
+                                            <td><button class="btn btn-xs btn-flat"><span class="glyphicon glyphicon-pencil" data-toggle="modal" data-target="#extramuralModal" ng-click="detailExtramuralEntryLoad(eE); clearResult()" aria-hidden="true"></span></button></td>
+                                            <td>{{$index + 1}}</td>
+                                            <td>{{eE.Ed.Semester}}</td>
+                                            <td>{{eE.DepartmentCipher}}</td>
+                                            <td>{{eE.Subject}}</td>
+                                            <td>{{eE.Specialty}}</td>
+                                            <td>{{eE.Extramural}}</td>
+                                            <td>{{eE.Course}}</td>
+                                            <td>{{eE.QuantityOfStudents}}</td>
+                                            <td>{{eE.QuantityOfGroups}}</td>
+                                            <td>{{eE.QuantityOfThreads}}</td>
+                                            <td>{{eE.NumOfThread}}</td>
+                                            <td>{{eE.MajorSpecialty}}</td>
+                                            <td>{{eE.CommonTime}}</td>
+                                            <td>{{eE.Credits}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Lectures}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Labs}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Practices}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.IndependentWorks}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Exam}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Evaluation}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Projects}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.Test}}</td>
+                                            <td ng-show="inExtraEntry">{{eE.EeS.LimitOnProjects}}</td>
+
+                                            <td>{{eE.Ed.Lectures}}</td>
+                                            <td>{{eE.Ed.Practices}}</td>
+                                            <td>{{eE.Ed.Labs}}</td>
+                                            <td>{{eE.Ed.SemesterConsults}}</td>
+                                            <td>{{eE.Ed.ExamConsults}}</td>
+                                            <td>{{eE.Ed.WrittenWorks}}</td>
+                                            <td>{{eE.Ed.AnalyticalWorks}}</td>
+                                            <td>{{eE.Ed.Projects}}</td>
+                                            <td>{{eE.Ed.Evaluation}}</td>
+                                            <td>{{eE.Ed.OralExams}}</td>
+                                            <td>{{eE.Ed.WrittenExams}}</td>
+                                            <td>{{eE.Ed.CheckingTests}}</td>
+                                            <td>{{eE.Ed.DiplomManagement}}</td>
+                                            <td>{{eE.Ed.DekParticipation}}</td>
+                                            <td>{{eE.Ed.CheckWriteWorks}}</td>
+                                            <td>{{eE.Ed.Protection}}</td>
+                                            <td>{{eE.Ed.Total}}</td>
+                                            <td>{{eE.Ed.Active}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+@section scripts{
+<script type="text/ng-template" id="dayEntryLoad">
+    <form name="Form" method="post">
+      
+        <div class="ngdialog-message">
+
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Дисципліна</th>
+                        <th>Факультет</th>
+                        <th>Спеціальність</th>
+                        <th>Спеціалізація</th>
+                        <th>Курс</th>
+                    </tr>
+                    <tr>
+                        <td class="col-md-2" style="white-space:normal;">{{$parent.Detail.Subject}}</td>
+                        <td>{{$parent.Detail.Faculty}}</td>
+                        <td>{{$parent.Detail.Specialty}}</td>
+                        <td>{{$parent.Detail.Specialization}}</td>
+                        <td>{{$parent.Detail.Course}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-hover">
+                        <tr>
+                            <td colspan="3"><span class="text-success">{{SuccessfulResult}}</span></td>
+                        </tr>
+                        <tr >
+                            <td><input class="form-control" readonly="readonly" ng-model="$parent.Detail.DaySemesterId"  /></td>
+                        </tr>
+                        <tr >
+                            <td><input class="form-control" readonly="readonly" ng-model="$parent.Detail.DayEntryId"  /></td>
+                        </tr>
+                        <tr>
+                            <td><input class="form-control" readonly="readonly" ng-model="$parent.Detail.Dd.Semester" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Лекції</td>
+                            <td>{{$parent.Detail.Dd.Lecture}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.Lecture" ng-hide="considerLecture" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Практичні</td>
+                            <td>{{$parent.Detail.Dd.Practice}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.Practice" ng-hide="considerPractice" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Лабораторні</td>
+                            <td>{{$parent.Detail.Dd.Lab}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.Lab" ng-hide="$parent.considerLab" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Семестрові консультації</td>
+                            <td>{{$parent.Detail.Dd.ConsultInSemester}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.ConsultInSemester" ng-hide="considerConsultInSemester" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Екзаменаційні консультації</td>
+                            <td>{{$parent.Detail.Dd.ConsultForExam}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.ConsultForExam" ng-hide="considerConsultForExam" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Перевірка контр. робіт</td>
+                            <td>{{$parent.Detail.Dd.VerifyingOfTests}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.VerifyingOfTests" ng-hide="considerVerifyingOfTests" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Участь у ДЕК</td>
+                            <td>{{$parent.Detail.Dd.Dek}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.Dek" ng-hide="$parent.considerDek" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Керівництво дипломними роботами</td>
+                            <td>{{$parent.Detail.Dd.ManagedDiploma}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.ManagedDiploma" ng-hide="considerManagedDiploma" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Залік</td>
+                            <td>{{$parent.Detail.Dd.ControlEvaluation}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.Detail.ControlEvaluation" ng-hide="considerControlEvaluation" class="wd_input form-control" /></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <select select size="29" class="form-control"
+                            data-ng-model="$parent.Detail.selectedTeachEntryLoading">
+                        <option data-ng-repeat="el in $parent.teachers" value="{{el.Id}}">
+                            {{el.LastName}} {{el.FirstName}} {{el.ThirdName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+        </div> 
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-default" ng-click="closeThisDialog('0')">Скасувати</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(Detail)">Розподілити</button>
+        </div>
+
+    </form>
+
+</script>
+
+<script type="text/ng-template" id="extrEntryLoad">
+    <form name="Form" method="post">
+
+        <div class="ngdialog-message">
+            <div class="table-responsive">
+                <table class="table">
+                    <tr>
+                        <th>Дисципліна</th>
+                        <th>Спеціальність</th>
+                        <th>Курс</th>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4" style="white-space:normal;">{{$parent.DetailExtramural.Subject}}</td>
+                        <td>{{$parent.DetailExtramural.Specialty}}</td>
+                        <td>{{$parent.DetailExtramural.Course}}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col-md-8">
+                    <table class="table table-hover">
+                        <tr hidden>
+                            <td><input class="form-control" readonly="readonly" ng-model="$parent.DetailExtramural.ExtramuralSemesterId" type="hidden" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Лекції</td>
+                            <td>{{$parent.DetailExtramural.Ed.Lectures}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralLecture" ng-hide="considerExtramuralLecture" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Практичні</td>
+                            <td>{{$parent.DetailExtramural.Ed.Practices}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralPractice" ng-hide="considerExtramuralPractice" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Лабораторні</td>
+                            <td>{{$parent.DetailExtramural.Ed.Labs}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralLab" ng-hide="considerExtramuralLab" class="wd_input form-control" /></td>
+                        </tr>
+                        <tr>
+                            <td class="text-right">Семестрові консультації</td>
+                            <td>{{$parent.DetailExtramural.Ed.SemesterConsults}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralConsultInSemester" ng-hide="considerExtramuralConsultInSemester" class="wd_input form-control" /></td>
+
+                        </tr>
+                        <tr>
+                            <td class="text-right">Екзаменаційні консультації</td>
+                            <td>{{$parent.DetailExtramural.Ed.ExamConsults}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralConsultForExam" ng-hide="considerExtramuralConsultForExam" class="wd_input form-control" /></td>
+
+                        </tr>
+                        <tr>
+                            <td class="text-right">Перевірка контр. робіт</td>
+                            <td>{{$parent.DetailExtramural.Ed.CheckingTests}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralVerifyingOfTest" ng-hide="considerExtramuralVerifyingOfTest" class="wd_input form-control" /></td>
+             
+                        </tr>
+                        <tr>
+                            <td class="text-right">Участь у ДЕК</td>
+                            <td>{{$parent.DetailExtramural.Ed.DekParticipation}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralDek" ng-hide="considerExtramuralDek" class="wd_input form-control" /></td>
+           
+                        </tr>
+                        <tr>
+                            <td class="text-right">Керівництво дипломними роботами</td>
+                            <td>{{$parent.DetailExtramural.Ed.DiplomManagement}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralManagedDiploma" ng-hide="considerExtramuralManagedDiploma" class="wd_input form-control" /></td>
+            
+                        <tr>
+                            <td class="text-right">Захист</td>
+                            <td>{{$parent.DetailExtramural.Ed.Protection}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralProtection" ng-hide="considerExtramuralProtection" class="wd_input form-control" /></td>
+                
+                        </tr>
+                        <tr>
+                            <td class="text-right">Перевірка письмових робіт</td>
+                            <td>{{$parent.DetailExtramural.Ed.CheckWriteWorks}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExVerifyingOfWrittenWorks" ng-hide="VerifyingOfWrittenWorks" class="wd_input form-control" /></td>
+      
+                        </tr>
+                        <tr>
+                            <td class="text-right">Іспити(письмові)</td>
+                            <td>{{$parent.DetailExtramural.Ed.WrittenExams}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralWrittenExam" ng-hide="considerExtramuralWrittenExam" class="wd_input form-control" /></td>
+               
+                        </tr>
+                        <tr>
+                            <td class="text-right">Іспити(усні)</td>
+                            <td>{{$parent.DetailExtramural.Ed.OralExams}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralOralExam" ng-hide="considerExtramuralOralExam" class="wd_input form-control" /></td>
+             
+                        </tr>
+                        <tr>
+                            <td class="text-right">Залік</td>
+                            <td>{{$parent.DetailExtramural.Ed.Evaluation}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralEvaluation" ng-hide="considerExtramuralEvaluation" class="wd_input form-control" /></td>
+           
+                        </tr>
+                        <tr>
+                            <td class="text-right">КР КП</td>
+                            <td>{{$parent.DetailExtramural.Ed.Projects}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralCourseProjects" ng-hide="considerCourseProjects" class="wd_input form-control" /></td>
+             
+                        </tr>
+                        <tr>
+                            <td class="text-right">Розрахункові роботи</td>
+                            <td>{{$parent.DetailExtramural.Ed.AnalyticalWorks}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralCalcWorks" ng-hide="considerExtramuralCalcWorks" class="wd_input form-control" /></td>
+         
+                        </tr>
+                        <tr>
+                            <td class="text-right">Аналітичні огляди(реферати)</td>
+                            <td>{{$parent.DetailExtramural.Ed.WrittenWorks}}</td>
+                            <td><input type="number" min="0" ng-model="$parent.DetailExtramural.ExtramuralWrittenWork" ng-hide="considerExtramuralWrittenWork" class="wd_input form-control" /></td>
+
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-md-4">
+                    <select select size="29" class="form-control"
+                            data-ng-model="$parent.Detail.selectedTeachEntryLoading">
+                        <option data-ng-repeat="el in $parent.teachers" value="{{el.Id}}">
+                            {{el.LastName}} {{el.FirstName}} {{el.ThirdName}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+        </div>
+        <div class="ngdialog-buttons">
+            <button type="button" class="ngdialog-button ngdialog-button-default" ng-click="closeThisDialog('0')">Скасувати</button>
+            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(DetailExtramural)">Розподілити</button>
+        </div>
+
+    </form>
+
+</script>
+}

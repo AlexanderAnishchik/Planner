@@ -1,0 +1,251 @@
+﻿@{ ViewBag.Title = "Розподіленні навантаження";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+ }
+
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/css/bootstrap.min.css">
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha/js/bootstrap.min.js"></script>*@
+<script src="~/Scripts/App/Controllers/tabController.js"></script>
+<script src="~/Scripts/App/Controllers/distributionController.js"></script>
+
+<style>
+    .table-centered td {
+        text-align: center;
+    }
+
+    th,
+    td {
+        white-space: nowrap;
+    }
+</style>
+
+
+<div class="content-wrapper" ng-controller="tabController as tCtrl">
+    <section class="content" ng-controller="distributionController as dCtrl" data-ng-init="dCtrl.init(); dCtrl.teachertLoad()">
+
+
+        <div class="row">
+
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation" ng-class="{ active: tCtrl.isSet(1)}">
+                    <a ng-click="tCtrl.setTab(1)"> Денна форма навантаження </a>
+                </li>
+                <li role="presentation" ng-class="{ active: tCtrl.isSet(2)}">
+                    <a ng-click="tCtrl.setTab(2)"> Заочна форма навантаження</a>
+                </li>
+            </ul>
+
+            <div class="content" ng-show="tCtrl.isSet(1)">
+                <div class="row">
+                    <div class="form-inline">
+
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <select class="form-control" data-ng-model="selectedDayEntryLoading">
+                                <option data-ng-repeat="el in entryLoadings" value="{{el.Id}}">
+                                    {{el.Year}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                            <select class="form-control" data-ng-model="selectedDaySemester">
+                                <option data-ng-repeat="s in semesters" value="{{s.Value}}">
+                                    {{s.Caption}}
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                            <button type="submit"
+                                    class="btn btn-primary btn-flat"
+                                    ng-click="downloadDayTeachLoadReport()">
+                                Друк звіту
+                            </button>
+                        </div>
+
+                        <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12">
+                            <button id="btnLoadDay" type="submit" class="btn btn-primary btn-flat" ng-click="fillDayTeachLoad()">
+                                Показати навантаження
+                            </button>
+                        </div>
+
+                        </div>
+                    </div>
+
+                <div class="row" ng-show="dayTeach.length > 0">
+                    <div class="col-xs-3">
+                        <input type="search" class="form-control in" data-ng-model="query" placeholder="Пошук" />
+                        <p></p>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12" ng-show="dayTeach.length > 0" ng-cloak>
+                        <div class="table-responsive">
+                            <table class="table-bordered table-condensed table-centered table-hover">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Прізвище та ініціали</th>
+                                        <th>Дисципліна</th>
+                                        <th>Cпеціальність</th>
+                                        <th>Спеціалізація</th>
+                                        <th>Курс</th>
+                                        <th>Навчальний ступінь</th>
+                                        <th>Кількістьсть студентів</th>
+                                        <th>Шифр груп</th>
+
+                                        <th>Лекції</th> 
+                                        <th>Практичні</th>
+                                        <th>Лабораторні</th>
+                                        <th>Семестрові консультації</th>
+                                        <th>Екзаменаційні консультації</th>
+                                        <th>Перевірка контр. робіт</th>
+                                        <th>КР, КП</th>
+                                        <th>Участь у ДЕК</th>
+                                        <th>Керівництво дипломними роботами</th>
+                                        <th>Всього за семестр</th>
+                                        <th>АКТИВНІ</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="dE in dayTeach | filter:query as results">
+                                        <td>{{$index + 1}} </td>
+                                        <td>{{dE.LastName}} {{dE.FirstName}}. {{dE.ThirdName}}.</td>
+                                        <td>{{dE.SubjectName}}</td>
+                                        <td>{{dE.Specialty}}</td>
+                                        <td>{{dE.Specialization}}</td>
+                                        <td>{{dE.CourseLiteral}}</td>
+                                        <td>{{dE.EducationDegree}}</td>
+                                        <td>{{dE.StudentsCount}}</td>
+                                        <td>{{dE.GroupsCipher}}</td>
+
+                                        <td>{{dE.Lecture}}</td>
+                                        <td>{{dE.Practice}}</td>
+                                        <td>{{dE.Lab}}</td>
+                                        <td>{{dE.ConsultInSemester}}</td>
+                                        <td>{{dE.ConsultForExam}}</td>
+                                        <td>{{dE.VerifyingOfTest}}</td>
+                                        <td>{{dE.CourseProjects}}</td>
+                                        <td>{{dE.Dek}}</td>
+                                        <td>{{dE.ManagedDiploma}}</td>
+                                        <td>{{dE.Total}}</td>
+                                        <td>{{dE.Active}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Markup for extramural entry load -->
+            <div class="content" ng-show="tCtrl.isSet(2)">
+                <div class="row">
+                        <div class="form-inline">
+
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control" ng-model="selectedExtraEntryLoading">
+                                    <option data-ng-repeat="el in entryLoadings" value="{{el.Id}}">
+                                        {{el.Year}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-2 col-md-3 col-sm-12 col-xs-12">
+                                <select class="form-control" ng-model="selectedExtraSemester">
+                                    <option data-ng-repeat="s in semesters" value="{{s.Value}}">
+                                        {{s.Caption}}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                                <button type="submit"
+                                        class="btn btn-primary btn-flat"
+                                        ng-click="downloadExtraTeachLoadReport()">
+                                    Друк звіту
+                                </button>
+                            </div>
+
+                            <div class="col-lg-3 col-md-4 col-sm-10 col-xs-10">
+                                <button id="btnLoadExtra"
+                                        type="submit"
+                                        class="btn btn-primary btn-flat"
+                                        ng-click="fillExtramuralTeachLoad()">
+                                    Показати навантаження
+                                </button>
+                            </div>
+                            </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-12" ng-show="extramuralTeach.length > 0" ng-clock>
+                        <div class="table-responsive">
+                            <table class="table-bordered table-condensed table-centered table-hover">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th>№</th>
+                                        <th>Прізвище та ініціали</th>
+                                        <th>Дисципліна</th>
+                                        <th>Шифр спеціальності</th>
+                                        <th>Курс</th>
+                                        <th>Кількістьсть студентів</th>
+
+                                        <th>Лекції</th>
+                                        <th>Практичні</th>
+                                        <th>Лабораторні</th>
+                                        <th>Семестрові консультації</th>
+                                        <th>Екзаменаційні консультації</th>
+                                        <th>Розрахункові роботи</th>
+
+                                        <th>Залік</th>
+                                        <th>Іспити(усні)</th>
+                                        <th>Іспити(письмові)</th>
+                                        <th>Перевірка контр.робіт</th>
+                                        <th>Керівництво переддипломною практикою</th>
+                                        <th>Участь в ДЕК</th>
+                                        <th>Перевірка письмових робіт</th>
+                                        <th>Захист</th>
+                                        <th>Всього за семестр</th>
+                                        <th>Активні</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr data-ng-repeat="eE in extramuralTeach | filter:query as results">
+                                        <td>{{$index + 1}} </td>
+                                        <td>{{eE.LastName}} {{eE.FirstName}}. {{eE.ThirdName}}.</td>
+                                        <td>{{eE.SubjectName}}</td>
+                                        <td>{{eE.Specialty}}</td>
+                                        <td>{{eE.CourseLiteral}}</td>
+                                        <td>{{eE.StudentsCount}}</td>
+                                       
+
+                                        <td>{{eE.Lecture}}</td>
+                                        <td>{{eE.Practice}}</td>
+                                        <td>{{eE.Lab}}</td>
+                                        <td>{{eE.ConsultInSemester}}</td>
+                                        <td>{{eE.ConsultForExam}}</td>
+                                        <td>{{eE.WrittenWork}}</td>
+
+
+                                        <td>{{eE.Evaluation}}</td>
+                                        <td>{{eE.OralExam}}</td>
+                                        <td>{{eE.WrittenExam}}</td>
+                                        <td>{{eE.VerifyingOfTest}}</td>
+                                        <td>{{eE.ManagedDiploma}}</td>
+                                        <td>{{eE.Dek}}</td>
+                                        <td>{{eE.VerifyingOfWrittenWorks}}</td>
+                                        <td>{{eE.Protection}}</td>
+                                        <td>{{eE.Total}}</td>
+                                        <td>{{eE.Active}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>

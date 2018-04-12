@@ -16,6 +16,9 @@ namespace Domain.Models
         [Key]
         public String Id { get; set; }
         public String Name { get; set; }
+
+        // for *.xls
+        public String ShortName { get; set; }
         public virtual ICollection<Department> Departments { get; set; }
     }
 }

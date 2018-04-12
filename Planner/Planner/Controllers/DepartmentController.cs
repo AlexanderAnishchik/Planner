@@ -1,5 +1,6 @@
 ﻿using Calculation;
 using Domain.Models;
+using Planner.Filters;
 using SpreadsheetLight;
 using System;
 using System.Collections.Generic;
@@ -11,15 +12,16 @@ using System.Web.Mvc;
 namespace Planner.Controllers
 {
 	[Authorize]
-    public class DepartmentController : Controller
+	public class DepartmentController : Controller
     {
-        // GET: Department
+        [Authorize(Roles = "Admin,HeadOfStudies")]
         public ActionResult DepartmentPublications()
         {
             return View();
         }
 
-		public ActionResult HalfYearDepartmentPublications()
+        [Authorize(Roles = "Admin,HeadOfStudies")]
+        public ActionResult HalfYearDepartmentPublications()
 		{
 			return View();
 		}
@@ -74,7 +76,7 @@ namespace Planner.Controllers
                 var model = PublicationReportBuilder.ScientificPublishing(depId, year, half);
                 return new JsonResult() { Data = model, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return null;
             }
@@ -91,7 +93,37 @@ namespace Planner.Controllers
                 var name = "Звiт за пiврiччя-" + DateTime.UtcNow.ToLongDateString() + ".xlsx";
                 return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", name);
             }
-            catch (Exception ex)
+            catch (Exception)
+            {
+                return Redirect("/Department/HalfYearDepartmentPublications");
+            }
+        }
+
+        public JsonResult UniversityDepartmentReport(string depId, int year, int half)
+        {
+            try
+            {
+                var model = PublicationReportBuilder.ScientificPublishing(depId, year, half);
+                return new JsonResult() { Data = model, JsonRequestBehavior = JsonRequestBehavior.AllowGet };
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+        }
+        public ActionResult PrintUniversityDepartmentReport(string depId, int year, int half)
+        {
+            try
+            {
+                var model = PublicationReportBuilder.ScientificPublishing(depId, year, half);
+                SLDocument doc = PublicationReportBuilder.PrintHalfReport(model);
+                var ms = new MemoryStream();
+                doc.SaveAs(ms);
+                ms.Position = 0;
+                var name = "Звiт за пiврiччя-" + DateTime.UtcNow.ToLongDateString() + ".xlsx";
+                return File(ms, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", name);
+            }
+            catch (Exception)
             {
                 return Redirect("/Department/HalfYearDepartmentPublications");
             }

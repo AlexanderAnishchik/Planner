@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "About";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="content-wrapper">
+    <div class="form-group">
+        <div class="login-box-body" data-ng-controller="registerController as registerCtrl" ng-cloak data-ng-init="registerCtrl.init()">
+            <p class="login-box-msg">Розподілення навантаження по кафедрі </p>
+            <hr />
+            <ol>
+                <li>Натиснути пункт меню "Розподілення навантаження по кафедрі"</li>
+                <li>
+                    На сторінці "Розподілення навантаження по кафедрі":
+                    <ol>
+                        <li>Вибрати потрібну форму навчання</li>
+                        <li>З першого випадаючого списку вибрати рік</li>
+                        <li>З другого випадаючого списку вибрати семестр</li>
+                        <li>Натиснути кнопку "Показати навантаження"</li>
+                        <li>Натиснути кнопку "Друк звіту", для отримання Excel-файлу</li>
+                    </ol>
+                </li>
+                <li>Відкрити файл, що був отриманий, для подальшого редагування</li>
+            </ol>
+        </div>
+    </div>
+</div>
+
+
+

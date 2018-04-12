@@ -1,2 +1,2 @@
 ﻿/// <reference path="../angular.js" />
-var PlannerApp = angular.module('PlannerApp', []);
+var PlannerApp = angular.module('PlannerApp', ['ngDialog', 'ngTouch', 'ui.grid', 'ui.grid.exporter', 'ui.grid.selection', 'ui.grid.moveColumns', 'ui.grid.exporter', 'ui.grid.importer', 'ui.grid.grouping', 'ui.grid.pagination', 'ui.grid.pinning']);

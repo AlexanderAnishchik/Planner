@@ -237,9 +237,9 @@ namespace Planner.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return RedirectToAction("Profile", "Home");
             }
-            AddErrors(result);
+            AddErrors(new IdentityResult("Старий пароль не співпадає"));
             return View(model);
         }
 

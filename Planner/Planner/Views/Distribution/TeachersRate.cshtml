@@ -1,0 +1,124 @@
+﻿<script src="~/Scripts/App/Controllers/tabController.js"></script>
+<script src="~/Scripts/App/Controllers/distributionController.js"></script>
+
+<div class="content-wrapper">
+    <div class="form-group">
+        <div class="content-wrapper" ng-controller="tabController as tCtrl">
+            <section class="content"  ng-controller="teachersRatesController">
+             <div class="row">
+                 <ul class="nav nav-tabs nav-justified">
+                     <li role="presentation" ng-class="{ active: tCtrl.isSet(1)}">
+                         <a ng-click="tCtrl.setTab(1)"> Планова нагрузка </a>
+                     </li>
+                     <li role="presentation" ng-class="{ active: tCtrl.isSet(2)}">
+                         <a ng-click="tCtrl.setTab(2)"> Фактична нагрузка</a>
+                     </li>
+                 </ul>
+
+                 <div class="content" ng-show="tCtrl.isSet(1)">
+                     <div id="grid2" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns class="grid" style="width:900px;height: 400px;">
+                     </div>
+                     <br />
+                     <br />
+                     <a href="" ng-click="showAlertDetails()" class="btn btn-default">Додати</a>
+                     
+                 </div>
+                 <div class="content" ng-show="tCtrl.isSet(2)">
+                     <div id="grid3" ui-grid="gridFactOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns class="grid" style="width:900px;height: 400px;">
+                     </div>
+                 </div>
+                 </div> 
+            </section>
+          </div>
+       
+                @*<div ng-controller="teachersRatesController">
+                    <p class="text-center">Планова нагрузка</p>
+                    <a href="" ng-click="showAlertDetails()" class="btn btn-default">Додати</a>
+                    <br />
+                    <br />
+                    <div id="grid2" ui-grid="gridOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns class="grid" style="width:900px;height: 400px;">
+                    </div>
+
+
+                    <hr />
+                    <p class="text-center">Фактична нагрузка</p>
+                    <div id="grid3" ui-grid="gridFactOptions" ui-grid-pagination ui-grid-auto-resize ui-grid-resize-columns class="grid" style="width:900px;height: 400px;">
+                    </div>
+                </div>*@
+        </div>
+    </div>
+
+@section scripts{
+    <script type="text/ng-template" id="addWarh">
+        <form name="Form" method="post">
+
+            <table>
+                <tr>
+                    <td><strong> ФІО</strong></td>
+                    <td>
+                        <select data-ng-model="TeacRate.UserId" style="width: 320px;">
+                            <option ng-repeat="option in teachers" value="{{option.Id}}" class="wd_input form-control">
+                                {{option.LastName}} {{option.FirstName}} {{option.ThirdName}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Ставка</strong></td>
+                    <td>
+                        <select data-ng-model="TeacRate.RateId" style="width: 320px;">
+                            <option ng-repeat="option in rates" value="{{option.Id}}"  class="wd_input form-control">
+                                {{option.Value}}
+                            </option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td><strong>Часи</strong></td>
+                    <td>
+                        <input type="number" max="800" min="0" name="Price" ng-model="TeacRate.Total" class="wd_input form-control"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2">
+                        <div class="ngdialog-buttons">
+                            <button type="button" class="ngdialog-button ngdialog-button-default" ng-click="closeAll()">Скасувати</button>
+                            <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(TeacRate)">Редагувати</button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+        </form>
+
+    </script>
+
+<script type="text/ng-template" id="getProd">
+    <form name="Form" method="post">
+        <table>
+            <tr>
+                <td><strong> ФІО</strong></td>
+                <td class="text-right">{{$parent.TeacRates.UserName}}</td>
+            </tr>
+            <tr>
+                <td><strong>Ставка</strong></td>
+                <td>{{$parent.TeacRates.RateValue}}</td>
+            </tr>
+            <tr>
+                <td><strong>Часи</strong></td>
+                <td><input type="number" max="800" min="0" name="Total" ng-model="$parent.TeacRates.Total" class="wd_input form-control" /></td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="ngdialog-buttons">
+                        <button type="button" class="ngdialog-button ngdialog-button-default" ng-click="closeAll()">Скасувати</button>
+                        <button type="button" class="ngdialog-button ngdialog-button-primary" ng-click="confirm(TeacRates)">Редагувати</button>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </form>
+
+</script>
+
+}

@@ -14,9 +14,11 @@ using System.Web.Routing;
 using Calculation;
 using System.IO;
 using SpreadsheetLight;
+using Planner.Filters;
 
 namespace Planner.Controllers
 {
+	[IncompleteProfileFilter]
 	public class PublicationController : Controller
 	{
 		private ApplicationUser user;

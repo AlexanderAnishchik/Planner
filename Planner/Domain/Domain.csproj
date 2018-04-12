@@ -74,6 +74,10 @@
       <HintPath>..\packages\Microsoft.Owin.Security.OAuth.2.1.0\lib\net45\Microsoft.Owin.Security.OAuth.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.4.5.11\lib\net40\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -85,6 +89,30 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -97,6 +125,7 @@
     <Compile Include="Helpers\Author.cs" />
     <Compile Include="GenericRepository.cs" />
     <Compile Include="Helpers\Dates.cs" />
+    <Compile Include="Helpers\ScientificFieldsHelper.cs" />
     <Compile Include="Helpers\ScientificPublishingModel.cs" />
     <Compile Include="Migrations\201610042355187_PlanRemark.cs" />
     <Compile Include="Migrations\201610042355187_PlanRemark.Designer.cs">
@@ -114,19 +143,118 @@
     <Compile Include="Migrations\201610060106148_AddPlan.Designer.cs">
       <DependentUpon>201610060106148_AddPlan.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611232101231_PlanScientificWork.cs" />
+    <Compile Include="Migrations\201611232101231_PlanScientificWork.Designer.cs">
+      <DependentUpon>201611232101231_PlanScientificWork.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611271611409_Added profile picture.cs" />
+    <Compile Include="Migrations\201611271611409_Added profile picture.Designer.cs">
+      <DependentUpon>201611271611409_Added profile picture.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201612142301188_DayEntryLoad.cs" />
+    <Compile Include="Migrations\201612142301188_DayEntryLoad.Designer.cs">
+      <DependentUpon>201612142301188_DayEntryLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701122008153_UpdateUserForImport.cs" />
+    <Compile Include="Migrations\201701122008153_UpdateUserForImport.Designer.cs">
+      <DependentUpon>201701122008153_UpdateUserForImport.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701141715162_RemoveUserPhone.cs" />
+    <Compile Include="Migrations\201701141715162_RemoveUserPhone.Designer.cs">
+      <DependentUpon>201701141715162_RemoveUserPhone.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701171250457_TabName.cs" />
+    <Compile Include="Migrations\201701171250457_TabName.Designer.cs">
+      <DependentUpon>201701171250457_TabName.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702201939507_IndivPlanToUser.cs" />
+    <Compile Include="Migrations\201702201939507_IndivPlanToUser.Designer.cs">
+      <DependentUpon>201702201939507_IndivPlanToUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702240222493_HiddenInput.cs" />
+    <Compile Include="Migrations\201702240222493_HiddenInput.Designer.cs">
+      <DependentUpon>201702240222493_HiddenInput.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702282308010_UserToIndivPlan.cs" />
+    <Compile Include="Migrations\201702282308010_UserToIndivPlan.Designer.cs">
+      <DependentUpon>201702282308010_UserToIndivPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703040857529_AddIsActiveToApplicationUser.cs" />
+    <Compile Include="Migrations\201703040857529_AddIsActiveToApplicationUser.Designer.cs">
+      <DependentUpon>201703040857529_AddIsActiveToApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703141932513_UpdateIndivPlanTables.cs" />
+    <Compile Include="Migrations\201703141932513_UpdateIndivPlanTables.Designer.cs">
+      <DependentUpon>201703141932513_UpdateIndivPlanTables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704021952463_DelExtramuralTeachLoad.cs" />
+    <Compile Include="Migrations\201704021952463_DelExtramuralTeachLoad.Designer.cs">
+      <DependentUpon>201704021952463_DelExtramuralTeachLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704021956262_DelDayEntryLoad.cs" />
+    <Compile Include="Migrations\201704021956262_DelDayEntryLoad.Designer.cs">
+      <DependentUpon>201704021956262_DelDayEntryLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704022016289_AddExtramuralTeachLoad.cs" />
+    <Compile Include="Migrations\201704022016289_AddExtramuralTeachLoad.Designer.cs">
+      <DependentUpon>201704022016289_AddExtramuralTeachLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704022018227_AddDayTeachLoad.cs" />
+    <Compile Include="Migrations\201704022018227_AddDayTeachLoad.Designer.cs">
+      <DependentUpon>201704022018227_AddDayTeachLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704022023225_AddLoadingList.cs" />
+    <Compile Include="Migrations\201704022023225_AddLoadingList.Designer.cs">
+      <DependentUpon>201704022023225_AddLoadingList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704231634442_EntryLoad.cs" />
+    <Compile Include="Migrations\201704231634442_EntryLoad.Designer.cs">
+      <DependentUpon>201704231634442_EntryLoad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705281232163_UpdateIndivPlan.cs" />
+    <Compile Include="Migrations\201705281232163_UpdateIndivPlan.Designer.cs">
+      <DependentUpon>201705281232163_UpdateIndivPlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706122336034_DEK.cs" />
+    <Compile Include="Migrations\201706122336034_DEK.Designer.cs">
+      <DependentUpon>201706122336034_DEK.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712052318574_NewMigration.cs" />
+    <Compile Include="Migrations\201712052318574_NewMigration.Designer.cs">
+      <DependentUpon>201712052318574_NewMigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201712251101486_UpdateDB.cs" />
+    <Compile Include="Migrations\201712251101486_UpdateDB.Designer.cs">
+      <DependentUpon>201712251101486_UpdateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Course.cs" />
+    <Compile Include="Models\DayEntryLoad.cs" />
+    <Compile Include="Models\DaySemester.cs" />
+    <Compile Include="Models\DayTeachLoad.cs" />
+    <Compile Include="Models\DDataStorage.cs" />
+    <Compile Include="Models\EDataStorage.cs" />
     <Compile Include="Models\Enums\ResearchDoneTypeEnum.cs" />
+    <Compile Include="Models\ExtramuralEntryLoad.cs" />
+    <Compile Include="Models\ExtramuralSemester.cs" />
+    <Compile Include="Models\ExtramuralTeachLoad.cs" />
+    <Compile Include="Models\IndPlanType.cs" />
+    <Compile Include="Models\LoadingList.cs" />
+    <Compile Include="Models\NDR.cs" />
     <Compile Include="Models\NMBD.cs" />
-    <Compile Include="Models\PlanAllocation.cs" />
     <Compile Include="Models\PlanChange.cs" />
     <Compile Include="Models\PlanConclusion.cs" />
     <Compile Include="Models\PlanManagment.cs" />
     <Compile Include="Models\PlanMethodicalWork.cs" />
     <Compile Include="Models\PlanRemark.cs" />
-    <Compile Include="Models\PlanScientificWork.cs" />
+    <Compile Include="Models\IndivPlanFieldsValue.cs" />
     <Compile Include="Models\PlanTrainingJob.cs" />
     <Compile Include="Models\ResearchDoneType.cs" />
     <Compile Include="Models\Schedule.cs" />
+    <Compile Include="Models\IndivPlanFields.cs" />
     <Compile Include="Models\ScientificPublishing.cs" />
+    <Compile Include="Models\Specialize.cs" />
+    <Compile Include="Models\Specialty.cs" />
+    <Compile Include="Models\Subject.cs" />
     <Compile Include="Reports\PublicationForm11.cs" />
     <Compile Include="IdentityConfig.cs" />
     <Compile Include="Migrations\Configuration.cs" />
@@ -169,6 +297,69 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610060106148_AddPlan.resx">
       <DependentUpon>201610060106148_AddPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611232101231_PlanScientificWork.resx">
+      <DependentUpon>201611232101231_PlanScientificWork.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611271611409_Added profile picture.resx">
+      <DependentUpon>201611271611409_Added profile picture.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201612142301188_DayEntryLoad.resx">
+      <DependentUpon>201612142301188_DayEntryLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701122008153_UpdateUserForImport.resx">
+      <DependentUpon>201701122008153_UpdateUserForImport.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701141715162_RemoveUserPhone.resx">
+      <DependentUpon>201701141715162_RemoveUserPhone.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701171250457_TabName.resx">
+      <DependentUpon>201701171250457_TabName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201939507_IndivPlanToUser.resx">
+      <DependentUpon>201702201939507_IndivPlanToUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702240222493_HiddenInput.resx">
+      <DependentUpon>201702240222493_HiddenInput.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702282308010_UserToIndivPlan.resx">
+      <DependentUpon>201702282308010_UserToIndivPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703040857529_AddIsActiveToApplicationUser.resx">
+      <DependentUpon>201703040857529_AddIsActiveToApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703141932513_UpdateIndivPlanTables.resx">
+      <DependentUpon>201703141932513_UpdateIndivPlanTables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704021952463_DelExtramuralTeachLoad.resx">
+      <DependentUpon>201704021952463_DelExtramuralTeachLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704021956262_DelDayEntryLoad.resx">
+      <DependentUpon>201704021956262_DelDayEntryLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704022016289_AddExtramuralTeachLoad.resx">
+      <DependentUpon>201704022016289_AddExtramuralTeachLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704022018227_AddDayTeachLoad.resx">
+      <DependentUpon>201704022018227_AddDayTeachLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704022023225_AddLoadingList.resx">
+      <DependentUpon>201704022023225_AddLoadingList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704231634442_EntryLoad.resx">
+      <DependentUpon>201704231634442_EntryLoad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705281232163_UpdateIndivPlan.resx">
+      <DependentUpon>201705281232163_UpdateIndivPlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706122336034_DEK.resx">
+      <DependentUpon>201706122336034_DEK.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712052318574_NewMigration.resx">
+      <DependentUpon>201712052318574_NewMigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201712251101486_UpdateDB.resx">
+      <DependentUpon>201712251101486_UpdateDB.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

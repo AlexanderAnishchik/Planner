@@ -4,20 +4,20 @@
     <div class="col-lg-2 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-gray-light">
-            <a href="~/Publication/Create" class="inner btn-block">Створити <i class="glyphicon glyphicon-pencil"></i></a>
+            <a href="~/Publication/Create" type="submit" class="btn btn-primary btn-block btn-flat">Додати</a>
         </div>
     </div><!-- ./col -->
     <div class="col-lg-2 col-xs-6">
         <!-- small box -->
         <div class="small-box bg-gray-light">
-            <a href="#" class="inner btn-block">Мои публікації <i class="glyphicon glyphicon-paperclip"></i></a>
+            <a href="#" type="submit" class="btn btn-primary btn-block btn-flat">Мої публікації</a>
         </div>
     </div><!-- ./col -->
     <div class="col-lg-2 col-xs-6" ng-if="false">
         <!-- small box -->
         @*<div class="small-box bg-gray-light">
-            <a href="#" class="inner btn-block">Чорнетки <i class="glyphicon glyphicon-briefcase"></i></a>
-        </div>*@
+        <a href="#" type="submit" class="btn btn-primary btn-block btn-flat">Чорнетки</a>
+    </div>*@
     </div>
     <div class="col-lg-2 col-xs-6">
         <!-- small box -->
@@ -25,7 +25,7 @@
         @if (Model.Count > 0)
         {
             <div class="small-box bg-gray-light">
-                <a href="~/Publication/PrintForm11" class="inner btn-block">Друк <i class="glyphicon glyphicon-arrow-down"></i></a>
+                <a href="~/Publication/PrintForm11" type="submit" class="btn btn-primary btn-block btn-flat">Друк </a>
             </div>
         }
         

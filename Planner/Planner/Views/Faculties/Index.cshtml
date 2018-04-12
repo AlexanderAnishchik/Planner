@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Domain.Models.Faculty>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewBag.Title = "Список факультетів";
+}
+<div class="content-wrapper">
+    <div style="width:600px; margin: 0 auto;">
+        <p style="font-size: 24px!important" class="login-box-msg">Список факультетів</p>
+        <br />
+    </div>
+    <table class="table">
+        <tr>
+            <td><a href="~/Departments/Create" style="font-size: 16px!important" class="btn btn-primary">Створити</a></td>
+        </tr>
+         <tr>
+
+            <th>
+                <p style="font-size: 24px!important" class="login-box-msg">Повна назва</p>
+            </th>
+            <th>
+                <p style="font-size: 24px!important" class="login-box-msg">Коротка назва</p>
+            </th>
+            <th></th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShortName)
+                </td>
+                <td>
+                    @Html.ActionLink("Редагувати", "Edit", new { id = item.Id }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" }) 
+                    @Html.ActionLink("Видалити", "Delete", new { id = item.Id }, new { @style = "font-size: 16px!important", @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
