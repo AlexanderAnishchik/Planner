@@ -113,9 +113,6 @@ namespace Planner.Controllers
             //        //userManager.AddToRole(admin.Id, role2.Name);
             //    }
             //}
-                
-
-
             return View();
         }
 

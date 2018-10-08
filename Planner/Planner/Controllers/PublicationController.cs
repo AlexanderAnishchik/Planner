@@ -53,7 +53,21 @@ namespace Planner.Controllers
 
 		}
 
-		[HttpPost]
+        public ActionResult SendToDspace(string error)
+        {
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var model = new CreatePublicationViewModel
+                {
+                    NMDBs = db.NMBDs.ToList(),
+                    Error = error
+                };
+
+                return View(model);
+            }
+        }
+
+        [HttpPost]
 		public ActionResult Create(PublicationCreate model, HttpPostedFileBase file)
 		{
 			if (file == null)
@@ -157,7 +171,7 @@ namespace Planner.Controllers
 			}
 		}
 
-		public ActionResult PrintForm11()
+        public ActionResult PrintForm11()
 		{
             var model = PublicationReportBuilder.CreateForm11(user);
             if (model.Count > 0)
